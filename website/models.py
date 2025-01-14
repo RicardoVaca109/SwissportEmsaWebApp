@@ -53,5 +53,26 @@ class Vuelo(models.Model):
     
     
     def __str__(self):
-        return f"Vuelo {self.codigo_del_vuelo}: {self.origen_vuelo} -> {self.destino_vuelo} | Fecha: ({self.fecha_vuelo})"
+        return f"Vuelo: {self.codigo_del_vuelo}: {self.origen_vuelo} -> {self.destino_vuelo} | Fecha: ({self.fecha_vuelo})"
     
+class Evento(models.Model):
+    id_evento = models.AutoField(primary_key = True)
+    id_vuelo = models.ForeignKey(Vuelo, on_delete = models.CASCADE)
+    
+    # Dictionary for ENUM /  Diccionario python para datos ENUM
+    TIPO_EVENTO_CHOICES = {
+        "SPI":"SPI",
+        "NO SPI":"NO SPI"
+    }
+    
+    tipo_evento = models.CharField(
+        max_length = 10,
+        choices = TIPO_EVENTO_CHOICES
+    )
+    
+    observacion = models.CharField(max_length = 250)
+    evento_lir = models.CharField(max_length = 3)
+    evento_pax = models.CharField(max_length = 3)
+    
+    def __str__(self):
+        return f"Vuelo: {self.id_vuelo.codigo_del_vuelo} - {self.tipo_evento} - {self.evento_lir} - {self.evento_pax}"
