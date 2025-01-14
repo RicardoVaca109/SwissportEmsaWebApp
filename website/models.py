@@ -21,8 +21,9 @@ class Roles(models.Model): # Table Roles / Tabla Roles
     
     def __str__(self):
         return self.nombre_rol
+    
 
-class Aeropuerto(models.Model):
+class Aeropuerto(models.Model): # Table Aeropuertos / Tabla Aeropuertos
     id_aeropuerto = models.AutoField(primary_key = True)
     estacion_aeropuerto = models.CharField(max_length = 3, unique = True)
     nombre = models.CharField(max_length = 80, unique = True)
@@ -32,7 +33,8 @@ class Aeropuerto(models.Model):
     def __str__(self):
         return  f"{self.estacion_aeropuerto} - {self.nombre} ({self.ciudad}, {self.pais})"
     
-class Usuario(models.Model):
+    
+class Usuario(models.Model): # Table Usuarios / Tabla Usuarios
     id_usuario = models.AutoField(primary_key = True)
     id_aeropuerto = models.ForeignKey(Aeropuerto, on_delete = models.CASCADE)
     id_rol = models.ForeignKey(Roles, on_delete = models.CASCADE )
@@ -44,18 +46,19 @@ class Usuario(models.Model):
     def __str__(self):
         return f"{self.nombre} - {self.apellido} - {self.email}"
     
-class Vuelo(models.Model):
+    
+class Vuelo(models.Model): # Table Vuelos/ Tabla Vuelos
     id_vuelo = models.AutoField(primary_key = True)
     fecha_vuelo = models.DateField(auto_now = False, auto_now_add = False)
     codigo_del_vuelo = models.CharField(max_length = 15)
     origen_vuelo = models.ForeignKey(Aeropuerto, on_delete = models.CASCADE, related_name = 'vuelos_origen')
     destino_vuelo = models.ForeignKey(Aeropuerto, on_delete = models.CASCADE, related_name = 'vuelos_destino')
     
-    
     def __str__(self):
         return f"Vuelo: {self.codigo_del_vuelo}: {self.origen_vuelo} -> {self.destino_vuelo} | Fecha: ({self.fecha_vuelo})"
     
-class Evento(models.Model):
+    
+class Evento(models.Model): # Table Eventos/ Tabla Eventos
     id_evento = models.AutoField(primary_key = True)
     id_vuelo = models.ForeignKey(Vuelo, on_delete = models.CASCADE)
     
@@ -76,3 +79,14 @@ class Evento(models.Model):
     
     def __str__(self):
         return f"Vuelo: {self.id_vuelo.codigo_del_vuelo} - {self.tipo_evento} - {self.evento_lir} - {self.evento_pax}"
+    
+    
+class Atraso(models.Model): # Table Atrasos/ Tabla Atrasos
+    id_atraso = models.AutoField(primary_key = True)
+    id_vuelo = models.ForeignKey(Vuelo, on_delete = models.CASCADE)
+    fecha_atraso = models.DateField(auto_now = False, auto_now_add = False)
+    codigo_atraso = models.CharField(max_length = 5)
+    motivo_atraso = models.CharField(max_length = 100)
+    
+    def  _str_(self):
+        return f"Vuelo: {self.id_vuelo.codigo_del_vuelo} | Fecha: {self.fecha_atraso} | Codigo: {self.codigo_atraso} | Motivo: {self.motivo_atraso}"
