@@ -21,4 +21,14 @@ class Roles(models.Model): # Table Roles / Tabla Roles
     
     def __str__(self):
         return self.nombre_rol
+
+class Aeropuerto(models.Model):
+    id_aeropuerto = models.AutoField(primary_key=True)
+    estacion_aeropuerto = models.CharField(max_length=3, unique = True)
+    nombre = models.CharField(max_length=80, unique=True)
+    ciudad = models.CharField(max_length=80)
+    pais = models.CharField(max_length=80)
+    
+    def __str__(self):
+        return  f"{self.estacion_aeropuerto} - {self.nombre} ({self.ciudad}, {self.pais})"
     
