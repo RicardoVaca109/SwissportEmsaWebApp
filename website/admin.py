@@ -2,7 +2,7 @@
 from django.contrib import admin
 
 # Import the models / Importar los modelos
-from .models import Roles
+from .models import Role
 from .models import Aeropuerto
 from .models import Usuario
 from .models import Vuelo
@@ -11,7 +11,7 @@ from .models import Atraso
 
 # Register your models here.
 # Registrar los modelos aquí
-admin.site.register(Roles) # Table roles / tabla roles
+admin.site.register(Role) # Table roles / tabla roles
 admin.site.register(Aeropuerto) # Table aeropuertos / tabla aeropuertos
 admin.site.register(Usuario)# Table Usuarios / tabla usuarios
 admin.site.register(Vuelo)# Table Vuelos / tabla vuelos

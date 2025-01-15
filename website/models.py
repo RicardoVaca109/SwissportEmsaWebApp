@@ -4,7 +4,7 @@ from django.db import models
 # Crear los modelos de la base de Datos
 
 # Models / Modelos
-class Roles(models.Model): # Table Roles / Tabla Roles
+class Role(models.Model): # Table Roles / Tabla Roles
     id_rol = models.AutoField(primary_key = True) # Primary id /Id Primario
     
     # Dictionary for ENUM /  Diccionario python para datos ENUM
@@ -37,7 +37,7 @@ class Aeropuerto(models.Model): # Table Aeropuertos / Tabla Aeropuertos
 class Usuario(models.Model): # Table Usuarios / Tabla Usuarios
     id_usuario = models.AutoField(primary_key = True)
     id_aeropuerto = models.ForeignKey(Aeropuerto, on_delete = models.CASCADE)
-    id_rol = models.ForeignKey(Roles, on_delete = models.CASCADE )
+    id_rol = models.ForeignKey(Role, on_delete = models.CASCADE )
     nombre = models.CharField(max_length = 80)
     apellido = models.CharField(max_length = 80)
     email = models.EmailField(max_length = 100, unique = True)
