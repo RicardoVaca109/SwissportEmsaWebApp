@@ -4,11 +4,36 @@
 
 {% block content %}
     <h1 class="text-center my-4">Aeropuertos Disponibles</h1>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-primary text-center">
+            <tr>
+                <th>#</th>
+                <th>Estación</th>
+                <th>Nombre</th>
+                <th>Ciudad</th>
+                <th>País</th>
+                <th>Tipo</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for aeropuerto in total_aeropuertos %}
+                <tr class="text-center">
+                    <td> {{ forloop.counter }} </td>
+                    <td> {{ aeropuerto.estacion_aeropuerto  }} </td>
+                    <td> {{ aeropuerto.nombre }} </td>
+                    <td> {{ aeropuerto.ciudad }} </td>
+                    <td> {{ aeropuerto.pais }} </td>
+                    <td> {{ aeropuerto.tipo_aeropuerto }} </td>
 
-    <div class="list-group">
-        {% for aeropuerto in total_aeropuertos %}
-            <p class="list-group-item">{{ aeropuerto }}</p>
-        {% endfor %}
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted">No hay aeropuertos disponibles</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 
 {% endblock %}
