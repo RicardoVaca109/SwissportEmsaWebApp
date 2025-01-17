@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h1>Administrar</h1>
+<div class="d-flex flex-column align-items-center gap-3">
+    <a href="{% url 'dashboard_aeropuertos'%}" class="btn btn-primary d-flex align-items-center justify-content-center"  style="width: 200px; height: 50px;">
+        <i class="bi bi-airplane me-2"></i>Aeropuertos</a>
+    <button class="btn btn-info" style="width: 200px; height: 50px;">
+        <i class="bi bi bi-people me-2"></i>Usuarios
+    </button>
+    <button class="btn btn-success" style="width: 200px; height: 50px;">
+        <i class="bi bi-globe me-2"></i>Vuelos
+    </button>
+</div>
+{% endblock %}
