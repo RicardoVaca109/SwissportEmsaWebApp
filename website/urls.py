@@ -1,8 +1,7 @@
 # Import necessary Libraries
 # Importar librerias necesarias
-from django.urls import path
-from . import views
+from django.urls import path, include
 
 urlpatterns = [
-   path('', views.navegacion_dashboard_general, name = "dashboard_general")
+    path('dashboard/', include('website.urls.dashboard_urls')),
 ]
