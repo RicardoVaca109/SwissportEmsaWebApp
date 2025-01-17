@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Aeropuertos{% endblock %}
+
+{% block content %}
+    <h1 class="text-center my-4">Aeropuertos Disponibles</h1>
+
+    <div class="list-group">
+        {% for aeropuerto in total_aeropuertos %}
+            <p class="list-group-item">{{ aeropuerto }}</p>
+        {% endfor %}
+    </div>
+
+{% endblock %}
