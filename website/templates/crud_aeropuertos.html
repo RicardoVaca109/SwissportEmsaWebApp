@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Agregar Aeropuerto{% endblock %}
+
+{% block content %}
+    <form method="post" action="{% url 'add_aeropuertos' %}">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="estacion_aeropuerto" class="form-label">Estación</label>
+            <input type="text" class="form-control" id="estacion_aeropuerto" name="estacion_aeropuerto" maxlength="3" placeholder="Ej: GYE" required>
+        </div>
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" maxlength="80" placeholder="Nombre del Aeropuerto" required>
+        </div>
+        <div class="mb-3">
+            <label for="ciudad" class="form-label">Ciudad</label>
+            <input type="text" class="form-control" id="ciudad" name="ciudad" maxlength="80" placeholder="Ciudad" required>
+        </div>
+        <div class="mb-3">
+            <label for="pais" class="form-label">País</label>
+            <input type="text" class="form-control" id="pais" name="pais" maxlength="80" placeholder="País" required>
+        </div>
+        <div class="mb-3">
+            <label for="tipo_aeropuerto" class="form-label">Tipo de Aeropuerto</label>
+            <select class="form-control" id="tipo_aeropuerto" name="tipo_aeropuerto" required>
+                <option value="Internacional">Internacional</option>
+                <option value="Nacional">Nacional</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar Aeropuerto</button>
+    </form>
+{% endblock %}
