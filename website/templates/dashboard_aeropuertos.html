@@ -4,6 +4,10 @@
 
 {% block content %}
     <h1 class="text-center my-4">Aeropuertos Disponibles</h1>
+    <div class="d-flex justify-content-end">
+        <a href="{% url 'add_aeropuertos' %}" class="btn btn-success mb-3 d-flex align-items-center justify-content-center"  style="width: 200px; height: 50px;">
+            <i class="bi bi-plus-circle me-2"></i>Agregar Aeropuerto</a>
+    </div>
     <div class="table-responsive">
         <table class="table table-hover">
             <thead class="table-primary text-center">
@@ -14,6 +18,8 @@
                 <th>Ciudad</th>
                 <th>País</th>
                 <th>Tipo</th>
+                <th>Eliminar</th>
+                <th>Editar</th>
             </tr>
             </thead>
             <tbody>
@@ -25,7 +31,61 @@
                     <td> {{ aeropuerto.ciudad }} </td>
                     <td> {{ aeropuerto.pais }} </td>
                     <td> {{ aeropuerto.tipo_aeropuerto }} </td>
-
+                    <td>
+                        <form method="post" action="{% url 'delete_aeropuertos' aeropuerto.id_aeropuerto %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este aeropuerto?');">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        <!-- Botón para abrir el modal de edición -->
+                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ aeropuerto.id_aeropuerto }}">
+                            <i class="bi bi-pencil-fill"></i>
+                        </button>
+                    
+                        <!-- Modal para edición -->
+                        <div class="modal fade" id="editModal{{ aeropuerto.id_aeropuerto }}" tabindex="-1" aria-labelledby="editModalLabel{{ aeropuerto.id_aeropuerto }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form method="post" action="{% url 'edit_aeropuertos' aeropuerto.id_aeropuerto %}">
+                                        {% csrf_token %}
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editModalLabel{{ aeropuerto.id_aeropuerto }}">Editar Aeropuerto</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <label for="estacion_aeropuerto_{{ aeropuerto.id_aeropuerto }}" class="form-label">Estación</label>
+                                                <input type="text" class="form-control" id="estacion_aeropuerto_{{ aeropuerto.id_aeropuerto }}" name="estacion_aeropuerto" value="{{ aeropuerto.estacion_aeropuerto }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="nombre_{{ aeropuerto.id_aeropuerto }}" class="form-label">Nombre</label>
+                                                <input type="text" class="form-control" id="nombre_{{ aeropuerto.id_aeropuerto }}" name="nombre" value="{{ aeropuerto.nombre }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="ciudad_{{ aeropuerto.id_aeropuerto }}" class="form-label">Ciudad</label>
+                                                <input type="text" class="form-control" id="ciudad_{{ aeropuerto.id_aeropuerto }}" name="ciudad" value="{{ aeropuerto.ciudad }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="pais_{{ aeropuerto.id_aeropuerto }}" class="form-label">País</label>
+                                                <input type="text" class="form-control" id="pais_{{ aeropuerto.id_aeropuerto }}" name="pais" value="{{ aeropuerto.pais }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="tipo_aeropuerto_{{ aeropuerto.id_aeropuerto }}" class="form-label">Tipo</label>
+                                                <input type="text" class="form-control" id="tipo_aeropuerto_{{ aeropuerto.id_aeropuerto }}" name="tipo_aeropuerto" value="{{ aeropuerto.tipo_aeropuerto }}">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>
@@ -35,5 +95,4 @@
             </tbody>
         </table>
     </div>
-
 {% endblock %}
