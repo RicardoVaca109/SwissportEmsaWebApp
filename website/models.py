@@ -10,8 +10,11 @@ class Role(models.Model): # Table Roles / Tabla Roles
     # Dictionary for ENUM /  Diccionario python para datos ENUM
     NOMBRE_ROL_CHOICES = {
         "Administrador":"Administrador",
+        "KAM Nacional": "KAM Nacional",
         "KAM":"KAM",
-        "Supervisor":"Supervisor"
+        "Supervisor":"Supervisor",
+        "OJT":"OJT",
+        "Empleado":"Empleado"        
     }
     
     nombre_rol = models.CharField(
