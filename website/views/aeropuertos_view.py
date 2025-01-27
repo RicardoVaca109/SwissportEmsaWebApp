@@ -27,7 +27,7 @@ def agregar_add_aeropuertos(request):
                 tipo_aeropuerto=tipo_aeropuerto,
             )
             return redirect(reverse('dashboard_aeropuertos'))
-    return render(request, 'crud_aeropuertos.html')
+    return render(request, 'add_aeropuertos_tmp.html')
 
 def editar_edit_aeropuerto(request, id_aeropuerto):
     aeropuerto = get_object_or_404(Aeropuerto, id_aeropuerto = id_aeropuerto)
