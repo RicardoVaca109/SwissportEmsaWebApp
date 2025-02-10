@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Agregar Vuelo{% endblock %}
+
+{% block content %}
+    <form method="post" action="{% url 'add_vuelos' %}">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="codigo_del_vuelo" class="form-label">Código del Vuelo</label>
+            <input type="text" class="form-control" id="codigo_del_vuelo" name="codigo_del_vuelo" maxlength="15" placeholder="Ej: AV123" required>
+        </div>
+        <div class="mb-3">
+            <label for="origen_vuelo" class="form-label">Aeropuerto de Origen</label>
+            <select class="form-control" id="origen_vuelo" name="origen_vuelo" required>
+                <option value="" disabled selected>Selecciona un aeropuerto</option>
+                {% for aeropuerto in total_aeropuertos %}
+                    <option value="{{ aeropuerto.id_aeropuerto }}">{{ aeropuerto.nombre }} ({{ aeropuerto.estacion_aeropuerto }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="destino_vuelo" class="form-label">Aeropuerto de Destino</label>
+            <select class="form-control" id="destino_vuelo" name="destino_vuelo" required>
+                <option value="" disabled selected>Selecciona un aeropuerto</option>
+                {% for aeropuerto in total_aeropuertos %}
+                    <option value="{{ aeropuerto.id_aeropuerto}}">{{ aeropuerto.nombre }} ({{ aeropuerto.estacion_aeropuerto }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="fecha_vuelo" class="form-label">Fecha del Vuelo</label>
+            <input type="date" class="form-control" id="fecha_vuelo" name="fecha_vuelo" required>
+        </div>
+         <!-- Contenedor para los botones -->
+         <div class="d-flex gap-2 mt-2">
+            
+            <!-- Botón para agregar usuario -->
+            <button type="submit" class="btn btn-primary">Agregar Vuelo</button>
+            <!-- Botón para regresar -->
+            <a href="{% url 'dashboard_vuelos' %}" class="btn btn-secondary">
+                <i class="bi bi-arrow-return-left me-2"></i> Regresar
+            </a>
+        </div>
+    </form>
+{% endblock %}
+
+
