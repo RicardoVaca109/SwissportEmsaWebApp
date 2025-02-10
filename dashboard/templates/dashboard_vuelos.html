@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Vuelos{% endblock %}
+
+{% block content %}
+    <h1 class="text-center my-4" >Vuelos</h1>
+    <div class="d-flex justify-content-end">
+        <a href="{% url 'add_vuelos' %}" class="btn btn-success mb-3 d-flex align-items-center justify-content-center"  style="width: 200px; height: 50px;">
+            <i class="bi bi-plus-circle me-2"></i>Agregar Vuelos</a>
+    </div>
+    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+        <table class="table table-hover">
+            <thead class="table-primary text-center">
+                <tr>
+                    <th>#</th>
+                    <th>Código del Vuelo</th>
+                    <th>Origen</th>
+                    <th>Destino</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vuelo in total_vuelos %}
+                <tr class="text-center">
+                    <td> {{forloop.counter}} </td>
+                    <td> {{ vuelo.codigo_del_vuelo }} </td> 
+                    <td> {{ vuelo.origen_vuelo.estacion_aeropuerto }} </td>
+                    <td> {{ vuelo.destino_vuelo.estacion_aeropuerto }} </td>
+                    <td> {{ vuelo.fecha_vuelo}} </td>
+                    <td>  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted">No hay Vuelos disponibles</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="d-flex justify-content-start mb-3">
+        <a href="{% url 'dashboard_general' %}" class="btn btn-primary">
+            <i class="bi bi-arrow-return-left me-2"></i> Regresar al Dashboard Principal
+        </a>
+    </div>
+{% endblock %}
+
+

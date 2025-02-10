@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h1>Administrar</h1>
+<div class="d-flex flex-column align-items-center gap-3">
+    <a href="{% url 'dashboard_aeropuertos'%}" class="btn btn-primary d-flex align-items-center justify-content-center"  style="width: 200px; height: 50px;">
+        <i class="bi bi-airplane-engines-fill me-2"></i>Aeropuertos</a>
+    <a href="{% url 'dashboard_usuarios'%}" class="btn btn-primary d-flex align-items-center justify-content-center" style="width: 200px; height: 50px;">
+        <i class="bi bi-people-fill me-2"></i>Usuarios
+    </a>
+    <a href="{% url 'dashboard_vuelos' %}" class="btn btn-primary d-flex align-items-center justify-content-center" style="width: 200px; height: 50px;">
+        <i class="bi bi-globe-americas me-2"></i>Vuelos
+    </a>
+    <a href="{% url 'dashboard_atrasos' %}" class="btn btn-warning d-flex align-items-center justify-content-center" style="width: 200px; height: 50px;">
+        <i class="bi bi bi-hourglass-bottom me-2"></i>Atrasos
+    </a>
+    <a href="{% url 'dashboard_eventos' %}" class="btn btn-warning d-flex align-items-center justify-content-center" style="width: 200px; height: 50px;">
+        <i class="bi bi-globe-americas me-2"></i>Eventos
+    </a>
+    <a href="{% url 'dashboard_accesos' %}" class="btn btn-warning d-flex align-items-center justify-content-center" style="width: 200px; height: 50px;">
+        <i class="bi bi-file-earmark-lock-fill me-2"></i>Accesos
+    </a>
+    <!-- <a href="{% url 'dashboard_eventos' %}" class="btn btn-warning d-flex align-items-center justify-content-center" style="width: 200px; height: 50px;">
+        <i class="bi bi-mortarboard-fill me-2"></i>Pruebas
+    </a> -->
+</div>
+{% endblock %}
