@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Agregar Usuarios{% endblock %}
+
+{% block content %}
+    <form method="post" action="{% url 'add_usuarios' %}">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_rol" class="form-label">Rol</label>
+            <select class="form-control" id="id_rol" name="id_rol" required>
+                <option value="" disabled selected>Selecciona un Rol</option>
+                {% for rol in total_roles %}
+                <option value="{{ rol.id_rol }}"> {{rol.nombre_rol}} </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="id_categoria_rol" class="form-label">Categoria Rol</label>
+            <select class="form-control" id="id_categoria_rol" name="id_categoria_rol">
+                <option value="" disabled selected>Selecciona una Categoria Rol(Opcional)</option>
+                {% for categoria_rol in total_categorias_role %}
+                <option value="{{ categoria_rol.id_categoria_rol }}"> {{categoria_rol.nombre_categoria}} </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombres</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" maxlength="80" placeholder="" required>
+        </div>
+        <div class="mb-3">
+            <label for="apellido" class="form-label">Apellidos</label>
+            <input type="text" class="form-control" id="apellido" name="apellido" maxlength="80" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Correo</label>
+            <input type="email" class="form-control" id="email" name="email" maxlength="100" required>
+        </div>
+        <div class="mb-3">
+            <label for="contrasenia" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="contrasenia" name="contrasenia" maxlength="300" required>
+        </div>
+        <div class="mb-3">
+            <label for="fecha_vuelo" class="form-label">Fecha de Ingreso</label>
+            <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso" required>
+        </div>
+        <div class="mb-3">
+            <label for="id_aeropuerto" class="form-label">Aeropuerto</label>
+            <select class="form-control" id="id_aeropuerto" name="id_aeropuerto" required>
+                <option value="" disabled selected>Selecciona una Estación</option>
+                {% for aeropuerto in total_aeropuertos %}
+                    <option value="{{ aeropuerto.id_aeropuerto }}">{{ aeropuerto.nombre }} ({{ aeropuerto.estacion_aeropuerto }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="bp" class="form-label">BP</label>
+            <input type="text" class="form-control" id="bp" name="bp" maxlength="7" pattern="[0-9]{1,7}" required 
+                   title="Debe contener solo números y máximo 7 dígitos">
+        </div>
+        <div class="mb-3">
+            <label for="erp" class="form-label">ERP (Opcional)</label>
+            <input type="text" class="form-control" id="erp" name="erp" maxlength="6" pattern="[0-9]{1,6}" 
+                   title="Debe contener solo números y máximo 6 dígitos">
+        </div>
+        <div class="mb-3">
+            <label for="estatus" class="form-label">Estatus</label>
+            <select class="form-control" id="estatus" name="estatus" required>
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+            </select>
+        </div>
+         <!-- Contenedor para los botones -->
+         <div class="d-flex gap-2 mt-2">
+            
+            <!-- Botón para agregar usuario -->
+            <button type="submit" class="btn btn-primary">Agregar Usuario</button>
+            <!-- Botón para regresar -->
+            <a href="{% url 'dashboard_usuarios' %}" class="btn btn-secondary">
+                <i class="bi bi-arrow-return-left me-2"></i> Regresar
+            </a>
+        </div>
+    </form> 
+{% endblock %}
