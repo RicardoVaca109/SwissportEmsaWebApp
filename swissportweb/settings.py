@@ -45,7 +45,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'website', # aplicacion website creada 
+    # Apps personalizadas
+    'accesos',
+    'aeropuertos',
+    'atrasos',
+    'auth_custom',
+    'dashboard', 
+    'evaluaciones', 
+    'eventos', 
+    'guias',
+    'usuarios', 
+    'vuelos',
+    'indicadores', 
 ]
 
 MIDDLEWARE = [
@@ -63,7 +74,7 @@ ROOT_URLCONF = 'swissportweb.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
