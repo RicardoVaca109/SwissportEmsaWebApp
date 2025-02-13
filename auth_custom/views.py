@@ -28,4 +28,4 @@ def auth_login_view(request):
 
 def auth_logout_view(request):
     logout(request)  # Eliminar sesión
-    return redirect("initial_login")  # Redirigir al login
+    return redirect("login_view")  # Redirigir al login
