@@ -13,5 +13,3 @@ class Aeronave(models.Model):
     
     def __str__(self):
         return f"Aeronave: {self.tipo_de_aeronave} - Matricula: {self.matricula_aeronave} - Nombre: {self.nombre_aeronave} - Aerolinea: {self.aerolinea} "
-
-# Create your models here.
