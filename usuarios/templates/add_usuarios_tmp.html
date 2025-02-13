@@ -8,7 +8,7 @@
         <div class="mb-3">
             <label for="id_rol" class="form-label">Rol</label>
             <select class="form-control" id="id_rol" name="id_rol" required>
-                <option value="" disabled selected>Selecciona un Rol</option>
+                <option value="" disabled selected>Selecciona un Rol (Obligatorio)</option>
                 {% for rol in total_roles %}
                 <option value="{{ rol.id_rol }}"> {{rol.nombre_rol}} </option>
                 {% endfor %}
@@ -17,7 +17,7 @@
         <div class="mb-3">
             <label for="id_categoria_rol" class="form-label">Categoria Rol</label>
             <select class="form-control" id="id_categoria_rol" name="id_categoria_rol">
-                <option value="" disabled selected>Selecciona una Categoria Rol(Opcional)</option>
+                <option value="" disabled selected>Selecciona una Categoria Rol (Opcional)</option>
                 {% for categoria_rol in total_categorias_role %}
                 <option value="{{ categoria_rol.id_categoria_rol }}"> {{categoria_rol.nombre_categoria}} </option>
                 {% endfor %}
@@ -42,7 +42,7 @@
         <div class="mb-3">
             <label for="fecha_vuelo" class="form-label">Fecha de Ingreso</label>
             <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso" required>
-        </div>
+        </div> 
         <div class="mb-3">
             <label for="id_aeropuerto" class="form-label">Aeropuerto</label>
             <select class="form-control" id="id_aeropuerto" name="id_aeropuerto" required>
@@ -54,7 +54,7 @@
         </div>
         <div class="mb-3">
             <label for="bp" class="form-label">BP</label>
-            <input type="text" class="form-control" id="bp" name="bp" maxlength="7" pattern="[0-9]{1,7}" required 
+            <input type="text" class="form-control" id="bp" name="bp" maxlength="7" pattern="[0-9]{1,7}" 
                    title="Debe contener solo números y máximo 7 dígitos">
         </div>
         <div class="mb-3">
@@ -67,6 +67,13 @@
             <select class="form-control" id="estatus" name="estatus" required>
                 <option value="Activo">Activo</option>
                 <option value="Inactivo">Inactivo</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="ubicacion" class="form-label">Empleado Sobre o Bajo Ala</label>
+            <select  class="form-control" id="ubicacion" name="ubicacion" required>
+                <option value="Bajo Ala">Bajo Ala</option>
+                <option value="Sobre Ala">Sobre Ala</option>
             </select>
         </div>
          <!-- Contenedor para los botones -->

@@ -31,9 +31,10 @@ def agregar_add_usuarios(request):
         bp = request.POST.get('bp') 
         erp = request.POST.get('erp') or None
         estatus = request.POST.get('estatus')
+        ubicacion = request.POST.get('ubicacion')
         
         # Validación básica de que la información este completa
-        if aeropuerto and rol and nombre and apellido and email and contrasenia and fecha_ingreso and bp and estatus:
+        if aeropuerto and rol and nombre and apellido and email and contrasenia and fecha_ingreso and estatus and ubicacion:
             Usuario.objects.create(
                 aeropuerto = Aeropuerto.objects.get(pk = aeropuerto),
                 rol = Role.objects.get(pk = rol),
@@ -45,7 +46,8 @@ def agregar_add_usuarios(request):
                 fecha_ingreso = fecha_ingreso,
                 bp=bp,
                 erp=erp,
-                estatus=estatus       
+                estatus=estatus,
+                ubicacion = ubicacion       
             )
         return redirect(reverse('dashboard_usuarios'))
     return render(request, 'add_usuarios_tmp.html',{

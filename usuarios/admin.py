@@ -1,3 +1,6 @@
 from django.contrib import admin
+from usuarios.models import Usuario, Role, CategoriaRole
 
-# Register your models here.
+admin.site.register(Usuario)
+admin.site.register(Role)
+admin.site.register(CategoriaRole)

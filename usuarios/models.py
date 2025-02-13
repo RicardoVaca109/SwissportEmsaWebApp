@@ -11,8 +11,7 @@ class CategoriaRole(models.Model):
         "Agente":"Agente",
         "High-Value":"High-Value",
         "Equipajes":"Equipajes",  
-        "Control":"Control",
-        "OJT":"OJT"  
+        "Control":"Control",  
     }
     nombre_categoria = models.CharField(max_length=15, unique=True, choices = NOMBRE_ROL_CATEGORIA_CHOICES)
 
@@ -32,7 +31,8 @@ class Role(models.Model): # Table Roles / Tabla Roles
         "Station Manager":"Station Manager",
         "Lead":"Lead",
         "Agente":"Agente",
-        "Gerente de Operaciones":"Gerente de Operaciones"    
+        "Gerente de Operaciones":"Gerente de Operaciones",
+        "OJT":"OJT"    
     }
     
     nombre_rol = models.CharField(
@@ -57,9 +57,20 @@ class Usuario(models.Model): # Table Usuarios / Tabla Usuario
     email = models.EmailField(max_length=100, unique=True)
     contrasenia = models.CharField(max_length=300, unique=True)
     fecha_ingreso = models.DateField(auto_now = False, auto_now_add = False)
-    bp = models.CharField(max_length=8, unique=True, blank=True, null=True)  # Identificación única de 8 números
+    bp = models.CharField(max_length=8, unique=True, blank=True, null=True)  # Identificación única de 8 números (opcional)
     erp = models.CharField(max_length=8, unique=True, blank=True, null=True) # Identificación única de 8 números (opcional)
     estatus = models.CharField(max_length=10, choices=[('Activo', 'Activo'), ('Inactivo', 'Inactivo')], default='Activo')
+    ubicacion = models.CharField(max_length = 10, choices = [('Bajo Ala', 'Bajo Ala'), ('Sobre Ala', 'Sobre Ala')]) 
+    
+    UBICACION_USUARIO = {
+        "Bajo Ala":"Bajo Ala",
+        "Sobre Ala": "Sobre Ala"
+    }
+    
+    ubicacion = models.CharField(
+        max_length = 10,
+        choices = UBICACION_USUARIO       
+    )
     
     def __str__(self):
         return f"{self.nombre} - {self.apellido} - {self.email}"
