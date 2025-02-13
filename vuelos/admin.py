@@ -1,3 +1,5 @@
 from django.contrib import admin
+from vuelos.models import Vuelo
 
-# Register your models here.
+admin.site.register(Vuelo)
+
