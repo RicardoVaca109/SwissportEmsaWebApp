@@ -1,0 +1,60 @@
+{% extends "base.html" %} 
+
+{% block title %}Evaluar {{ usuario_calificado.nombre }}{% endblock %} 
+
+{% block content %}
+<h1 class="text-center">Evaluar a {{ usuario_calificado.nombre }} {{ usuario_calificado.apellido }}</h1>
+
+<form method="POST" action="{% url 'evaluar_empleado' usuario_calificado.id_usuario tipo_evaluacion %}" class="w-50 mx-auto">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label class="form-label">Tipo de Evaluación</label>
+        <input type="text" class="form-control" value="{{ tipo_evaluacion }}" readonly>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Calificación (1-5)</label>
+        <select name="calificacion" class="form-control" required>
+            <option value="1">1 - Muy Deficiente</option>
+            <option value="2">2 - Deficiente</option>
+            <option value="3">3 - Aceptable</option>
+            <option value="4">4 - Bueno</option>
+            <option value="5">5 - Excelente</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Fecha de Evaluación</label>
+        <input type="date" name="fecha_calificacion" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Observación</label>
+        <select id="observacion_select" class="form-control mb-2">
+            <option value="Sin Observaciones" selected>Sin Observaciones</option>
+            <option value="otra">Otra (escribir abajo)</option>
+        </select>
+        <input type="text" id="observacion_input" name="observacion" class="form-control" placeholder="Escriba una observación" style="display: none;">
+    </div>
+
+    <button type="submit" class="btn btn-success">Guardar Evaluación</button>
+    <a href="{% url 'buscar_empleado' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+
+<script>
+    document.getElementById("observacion_select").addEventListener("change", function() {
+        var observacionInput = document.getElementById("observacion_input");
+        if (this.value === "otra") {
+            observacionInput.style.display = "block";
+            observacionInput.value = "";  // Limpiar el input cuando se activa
+            observacionInput.setAttribute("required", "true");
+        } else {
+            observacionInput.style.display = "none";
+            observacionInput.value = this.value; // Asignar el valor de la selección
+            observacionInput.removeAttribute("required");
+        }
+    });
+</script>
+
+{% endblock %}
