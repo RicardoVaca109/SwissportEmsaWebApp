@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Agregar Acceso{% endblock %}
+
+{% block content %}
+    <h1 class="text-center my-4">Registrar Acceso</h1>
+    <form method="post" action="{% url 'add_accesos' %}">
+        {% csrf_token %}
+
+        <!-- Dropdown menu para seleccionar usuario con rol Empleado -->
+        <div class="mb-3">
+            <label for="id_usuario" class="form-label">Usuario (Empleado)</label>
+            <select class="form-control" id="id_usuario" name="id_usuario" required>
+                <option value="">Seleccione un usuario</option>
+                {% for usuario in usuarios_empleados %}
+                    <option value="{{ usuario.id_usuario }}">{{ usuario.nombre }} {{ usuario.apellido }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Dropdown menu para seleccionar tipo de acceso -->
+        <div class="mb-3">
+            <label for="tipo_accesos" class="form-label">Tipo de Acceso</label>
+            <select class="form-control" id="tipo_accesos" name="tipo_accesos" required>
+                <option value="Amadeus">Amadeus</option>
+                <option value="SABRE">SABRE</option>
+            </select>
+        </div>
+
+        <!-- Campo para ingresar identificación única -->
+        <div class="mb-3">
+            <label for="identificacion_unica" class="form-label">Identificación Única</label>
+            <input type="text" class="form-control" id="identificacion_unica" name="identificacion_unica" maxlength="20" placeholder="Ej: 12345678" required>
+        </div>
+
+        <!-- Campo para fecha de iniciación -->
+        <div class="mb-3">
+            <label for="fecha_iniciacion" class="form-label">Fecha de Iniciación</label>
+            <input type="date" class="form-control" id="fecha_iniciacion" name="fecha_iniciacion" required>
+        </div>
+
+        <!-- Campo para fecha de baja (opcional) -->
+        <div class="mb-3">
+            <label for="fecha_de_baja" class="form-label">Fecha de Baja (opcional)</label>
+            <input type="date" class="form-control" id="fecha_de_baja" name="fecha_de_baja">
+        </div>
+
+        <!-- Contenedor para los botones -->
+        <div class="d-flex gap-2 mt-2">
+            <!-- Botón para agregar acceso -->
+            <button type="submit" class="btn btn-primary">Registrar Acceso</button>
+            <!-- Botón para regresar -->
+            <a href="{% url 'dashboard_accesos' %}" class="btn btn-secondary">
+                <i class="bi bi-arrow-return-left me-2"></i> Regresar
+            </a>
+        </div>
+    </form>
+{% endblock %}
