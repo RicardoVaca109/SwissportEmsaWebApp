@@ -5,8 +5,10 @@ from django.contrib.auth.decorators import login_required
 # Crear las rutas para las vistas en ese archivo
 
 def navegacion_dashboard_general(request):
-    return render(request, "dashboard_general.html")
+    usuario_nombre = request.session.get('usuario_nombre', 'Usuario')
+    return render(request, "dashboard_general.html", {"usuario_nombre":usuario_nombre})
 
 def navegacion_dashboard_rol_ojt(request):
-    return render(request, "dashboard_rol_ojt.html")
+    usuario_nombre = request.session.get('usuario_nombre', 'Usuario')
+    return render(request, "dashboard_rol_ojt.html", {"usuario_nombre": usuario_nombre})
 
