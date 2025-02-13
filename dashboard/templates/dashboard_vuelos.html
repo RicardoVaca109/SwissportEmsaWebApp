@@ -15,6 +15,7 @@
                     <th>#</th>
                     <th>Código del Vuelo</th>
                     <th>Origen</th>
+                    <th>Escala</th>
                     <th>Destino</th>
                     <th>Fecha</th>
                     <th>Acciones</th>
@@ -26,9 +27,10 @@
                     <td> {{forloop.counter}} </td>
                     <td> {{ vuelo.codigo_del_vuelo }} </td> 
                     <td> {{ vuelo.origen_vuelo.estacion_aeropuerto }} </td>
+                    <td> {{ vuelo.escala.estacion_aeropuerto }} </td>
                     <td> {{ vuelo.destino_vuelo.estacion_aeropuerto }} </td>
                     <td> {{ vuelo.fecha_vuelo}} </td>
-                    <td>  </td>
+                    <td> </td>
                 </tr>
                 {% empty %}
                 <tr>
