@@ -9,7 +9,7 @@ def navegacion_dashboard_aeropuertos(request):
 def agregar_add_aeropuertos(request):
     
     if request.method == 'POST':
-        estacion_aeropuerto = request.POST.get('estacion_aeropuerto')
+        estacion_aeropuerto = request.POST.get('estacion_aeropuerto').upper()
         nombre = request.POST.get('nombre')
         ciudad = request.POST.get('ciudad')
         pais = request.POST.get('pais')
