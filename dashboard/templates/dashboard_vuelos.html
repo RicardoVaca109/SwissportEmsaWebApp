@@ -17,7 +17,11 @@
                     <th>Origen</th>
                     <th>Escala</th>
                     <th>Destino</th>
+                    <th>Matrícula</th>
+                    <th>Aerolínea</th>
                     <th>Fecha</th>
+                    <th>Hora de Salida</th>
+                    <th>Hora de LLegada</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -27,9 +31,13 @@
                     <td> {{forloop.counter}} </td>
                     <td> {{ vuelo.codigo_del_vuelo }} </td> 
                     <td> {{ vuelo.origen_vuelo.estacion_aeropuerto }} </td>
-                    <td> {{ vuelo.escala.estacion_aeropuerto }} </td>
+                    <td> {{ vuelo.escala_intermedia.estacion_aeropuerto }} </td>
                     <td> {{ vuelo.destino_vuelo.estacion_aeropuerto }} </td>
+                    <td> {{vuelo.aeronave.matricula_aeronave}} </td>
+                    <td> {{vuelo.aeronave.aerolinea}} </td>
                     <td> {{ vuelo.fecha_vuelo}} </td>
+                    <td> {{vuelo.hora_llegada}} </td>
+                    <td> {{vuelo.hora_salida}} </td>
                     <td> </td>
                 </tr>
                 {% empty %}
