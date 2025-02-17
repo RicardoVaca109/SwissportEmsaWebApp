@@ -9,7 +9,7 @@ urlpatterns = [
     path('aeropuertos/', include('aeropuertos.urls')),
     path('usuarios/',include('usuarios.urls')),
     path('vuelos/', include('vuelos.urls')),
-    path('atrasos/', include('eventos.urls')),
-    path('eventos/', include('atrasos.urls')),
+    path('atrasos/', include('atrasos.urls')),
+    path('eventos/', include('eventos.urls')),
     path('accesos/', include('accesos.urls'))
 ]
