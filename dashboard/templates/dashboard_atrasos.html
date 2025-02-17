@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Atrasos{% endblock %}
+{% block title %}Atrasos{% endblock %} 
 
 {% block content %}
     <h1 class="text-center my-4">Atrasos Registrados</h1>
@@ -13,11 +13,13 @@
             <thead class="table-primary text-center">
                 <tr>
                     <th>#</th>
+                    <th>Fecha del Atraso</th>
                     <th>Código del Vuelo</th>
                     <th>Origen</th>
                     <th>Destino</th>
+                    <th>Registro del avión</th>
+                    <th>Minutos de Atraso</th>
                     <th>Código del Atraso</th>
-                    <th>Fecha del Atraso</th>
                     <th>Motivo del Atraso</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
@@ -27,14 +29,16 @@
                 {% for atraso in total_atrasos %}
                 <tr class="text-center">
                     <td> {{forloop.counter}} </td>
-                    <td> {{atraso.id_vuelo.codigo_del_vuelo}} </td>
-                    <td> {{atraso.id_vuelo.estacion_aeropuerto}} </td>
-                    <td> {{atraso.id_vuelo.estacion_aeropuerto}} </td>
-                    <td> {{atraso.codigo_atraso}} </td>
                     <td> {{atraso.fecha_atraso}} </td>
+                    <td> {{atraso.vuelo.codigo_del_vuelo}} </td>
+                    <td> {{atraso.vuelo.origen_vuelo.estacion_aeropuerto}} </td>
+                    <td> {{atraso.vuelo.destino_vuelo.estacion_aeropuerto}} </td>
+                    <td> {{atraso.vuelo.aeronave.matricula_aeronave}} </td>
+                    <td> {{atraso.minutos}} </td>
+                    <td> {{atraso.codigo_atraso}} </td>
                     <td> {{atraso.motivo_atraso}} </td>
-                    <td> </td>
-                    <td> </td>
+                    <td>  </td>
+                    <td>  </td>
                 </tr>
                 {% empty %}
                 <tr>
