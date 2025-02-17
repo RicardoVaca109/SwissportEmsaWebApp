@@ -1,1 +1,53 @@
-<h1>agregar un atraso</h1>
+{% extends "base.html" %}
+
+{% block title %}Agregar un Atraso{% endblock %} 
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Agregar un Nuevo Evento</h2>
+    <div class="card p-4 shadow-sm">
+    <form method="post" action="{% url 'add_atrasos' %}">
+        {% csrf_token %}
+    
+        <div class="mb-3">
+            <label for="id_vuelo" class="form-label">Vuelo</label>
+            <select class="form-control" id="id_vuelo" name="id_vuelo" required>
+                <option value="" disabled selected>Selecciona un vuelo</option>
+                {% for vuelo in total_vuelos %}
+                    <option value="{{vuelo.id_vuelo }}">
+                        {{ vuelo.codigo_del_vuelo }} - {{ vuelo.origen_vuelo}} → {{vuelo.destino_vuelo }} 
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="fecha_atraso" class="form-label">Fecha del Atraso</label>
+            <input type="date" class="form-control" id="fecha_atraso" name="fecha_atraso" required>
+        </div>
+    
+        <div class="mb-3">
+            <label for="codigo_atraso" class="form-label">Código del Atraso</label>
+            <input type="text" class="form-control" id="codigo_atraso" name="codigo_atraso" maxlength="10" required>
+        </div>
+    
+        <div class="mb-3">
+            <label for="minutos" class="form-label">Minutos de Atraso</label>
+            <input type="number" class="form-control" id="minutos" name="minutos" min="0" required>
+        </div>
+    
+        <div class="mb-3">
+            <label for="motivo_atraso" class="form-label">Motivo del Atraso</label>
+            <textarea class="form-control" id="motivo_atraso" name="motivo_atraso" rows="3" required></textarea>
+        </div>
+    
+        <!-- Botones de acción -->
+        <div class="d-flex justify-content-between">
+            <a href="{% url 'dashboard_atrasos' %}" class="btn btn-secondary">
+                <i class="bi bi-arrow-return-left me-2"></i> Regresar
+            </a>
+            <button type="submit" class="btn btn-primary">Agregar Atraso</button>
+        </div>
+     </form>
+    </div>
+</div>
+{% endblock %}
