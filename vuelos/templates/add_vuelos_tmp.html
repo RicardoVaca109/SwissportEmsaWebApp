@@ -28,8 +28,34 @@
             </select>
         </div>
         <div class="mb-3">
+            <label for="escala_intermedia" class="form-label">Escala Intermedia (opcional)</label>
+            <select class="form-control" id="escala_intermedia" name="escala_intermedia">
+                <option value="" selected>Sin escala</option>
+                {% for aeropuerto in total_aeropuertos %}
+                    <option value="{{ aeropuerto.id_aeropuerto }}">{{ aeropuerto.nombre }} ({{ aeropuerto.estacion_aeropuerto }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="aeronave" class="form-label">Aeronave</label>
+            <select class="form-control" id="aeronave" name="aeronave" required>
+                <option value="" disabled selected>Selecciona una aeronave</option>
+                {% for aeronave in total_aeronaves %}
+                    <option value="{{ aeronave.id_aeronave }}">{{ aeronave.nombre_aeronave }} - {{ aeronave.matricula_aeronave }} - {{aeronave.aerolinea}} - {{aeronave.tipo_de_aeronave}} </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
             <label for="fecha_vuelo" class="form-label">Fecha del Vuelo</label>
             <input type="date" class="form-control" id="fecha_vuelo" name="fecha_vuelo" required>
+        </div>
+        <div class="mb-3">
+            <label for="hora_salida" class="form-label">Hora de Salida</label>
+            <input type="time" class="form-control" id="hora_salida" name="hora_salida" required>
+        </div>
+        <div class="mb-3">
+            <label for="hora_llegada" class="form-label">Hora de Llegada</label>
+            <input type="time" class="form-control" id="hora_llegada" name="hora_llegada" required>
         </div>
          <!-- Contenedor para los botones -->
          <div class="d-flex gap-2 mt-2">
