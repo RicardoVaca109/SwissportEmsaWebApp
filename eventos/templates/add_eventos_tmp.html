@@ -1,1 +1,85 @@
-<h1>Añádir evento</h1>
+{% extends "base.html" %}
+
+{% block title %}Agregar un Evento{% endblock %} 
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Agregar un Nuevo Evento</h2>
+    <div class="card p-4 shadow-sm">
+        <form method="POST" action="{% url 'add_eventos' %}">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label for="id_vuelo" class="form-label">Código del Vuelo</label>
+                <select name="id_vuelo" id="id_vuelo" class="form-select" required>
+                    <option value="" selected disabled>Seleccione un vuelo</option>
+                    {% for vuelo in total_vuelos %}
+                        <option value="{{ vuelo.id }}">{{ vuelo.codigo_del_vuelo }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="fecha_evento" class="form-label">Fecha del Evento</label>
+                <input type="date" name="fecha_evento" id="fecha_evento" class="form-control" required>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="evento_lir" class="form-label">LIR</label>
+                    <select name="evento_lir" id="evento_lir" class="form-select" required>
+                        <option value="" selected disabled>Seleccione una opción</option>
+                        <option value="SI">Sí</option>
+                        <option value="NO">No</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="evento_pax" class="form-label">PAX</label>
+                    <select name="evento_pax" id="evento_pax" class="form-select" required>
+                        <option value="" selected disabled>Seleccione una opción</option>
+                        <option value="SI">Sí</option>
+                        <option value="NO">No</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="tipo_evento" class="form-label">Tipo de Evento</label>
+                <select name="tipo_evento" id="tipo_evento" class="form-select" required>
+                    <option value="" selected disabled>Seleccione un tipo de evento</option>
+                    <option value="SPI">SPI</option>
+                    <option value="NO SPI">NO SPI</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="motivo" class="form-label">Motivo</label>
+                <textarea name="motivo" id="motivo" class="form-control" rows="3" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="plan_de_accion" class="form-label">Plan de Acción</label>
+                <textarea name="plan_de_accion" id="plan_de_accion" class="form-control" rows="3"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="usuario_involucrado" class="form-label">Usuario Involucrado</label>
+                <select name="usuario_involucrado" id="usuario_involucrado" class="form-select" required>
+                    <option value="" selected disabled>Seleccione un usuario</option>
+                    {% for usuario in total_usuarios %}
+                        <option value="{{ usuario.id }}">{{ usuario.nombre }} {{ usuario.apellido }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <a href="{% url 'dashboard_eventos' %}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-return-left"></i> Regresar
+                </a>
+                <button type="submit" class="btn btn-success">Guardar Evento
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
