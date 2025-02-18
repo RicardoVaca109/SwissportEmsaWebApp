@@ -8,10 +8,10 @@ class Vuelo(models.Model): # Table Vuelos/ Tabla Vuelos
     codigo_del_vuelo = models.CharField(max_length = 15)
     origen_vuelo = models.ForeignKey(Aeropuerto, on_delete = models.CASCADE, related_name = 'vuelos_origen')
     destino_vuelo = models.ForeignKey(Aeropuerto, on_delete = models.CASCADE, related_name = 'vuelos_destino')
-    escala = models.ForeignKey(Aeropuerto, on_delete = models.CASCADE, blank=True, null=True )
+    escala_intermedia = models.ForeignKey(Aeropuerto, on_delete = models.CASCADE, blank=True, null=True )
     aeronave = models.ForeignKey(Aeronave, on_delete = models.CASCADE)
     hora_llegada = models.TimeField(auto_now=False, auto_now_add=False)
     hora_salida = models.TimeField(auto_now=False, auto_now_add=False)
     
     def __str__(self):
-        return f"Vuelo: {self.codigo_del_vuelo}: {self.origen_vuelo} -> {self.escala} -> {self.destino_vuelo}  | {self.aeronave} | Fecha: ({self.fecha_vuelo})"
+        return f"Vuelo: {self.codigo_del_vuelo}: {self.origen_vuelo} -> {self.escala_intermedia} -> {self.destino_vuelo}  | {self.aeronave} | Fecha: ({self.fecha_vuelo})"
