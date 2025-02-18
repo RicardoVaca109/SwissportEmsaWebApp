@@ -10,11 +10,11 @@
             {% csrf_token %}
             
             <div class="mb-3">
-                <label for="id_vuelo" class="form-label">Código del Vuelo</label>
-                <select name="id_vuelo" id="id_vuelo" class="form-select" required>
+                <label for='id_vuelo'  class="form-label">Vuelo:</label>
+                <select name='id_vuelo' id='id_vuelo' class="form-select" required>
                     <option value="" selected disabled>Seleccione un vuelo</option>
                     {% for vuelo in total_vuelos %}
-                        <option value="{{ vuelo.id }}">{{ vuelo.codigo_del_vuelo }}</option>
+                        <option value="{{ vuelo.id_vuelo }}">{{ vuelo.codigo_del_vuelo }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -63,11 +63,11 @@
             </div>
 
             <div class="mb-3">
-                <label for="usuario_involucrado" class="form-label">Usuario Involucrado</label>
-                <select name="usuario_involucrado" id="usuario_involucrado" class="form-select" required>
+                <label for='usuario_involucrado' class="form-label">Usuario Involucrado:</label>
+                <select name='usuario_involucrado' id='usuario_involucrado' class="form-select" required>
                     <option value="" selected disabled>Seleccione un usuario</option>
                     {% for usuario in total_usuarios %}
-                        <option value="{{ usuario.id }}">{{ usuario.nombre }} {{ usuario.apellido }}</option>
+                        <option value="{{ usuario.id_usuario }}">{{ usuario.nombre }} {{ usuario.apellido }}</option>
                     {% endfor %}
                 </select>
             </div>
