@@ -6,6 +6,7 @@ from aeropuertos.models import Aeropuerto
 class CategoriaRole(models.Model):
     id_categoria_rol = models.AutoField(primary_key = True)
     NOMBRE_ROL_CATEGORIA_CHOICES = {
+        "Focal":"Focal",
         "PAX":"PAX",
         "Ventas": "Ventas",
         "Agente":"Agente",
@@ -73,4 +74,4 @@ class Usuario(models.Model): # Table Usuarios / Tabla Usuario
     )
     
     def __str__(self):
-        return f"{self.nombre} - {self.apellido} - {self.email}"
+        return f"{self.nombre} - {self.rol} - {self.categoria_rol} - {self.apellido} - {self.email}"
