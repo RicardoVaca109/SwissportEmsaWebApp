@@ -4,12 +4,9 @@ from django.db import models
 from usuarios.models import Usuario
 
 # Create your models here.
-class Acceso(models.Model):
-    ESTADOS_ACCESOS_CHOICES = {
-        "SI":"SI",
-        "NO":"NO",
-        "SOLICITADO":"SOLICITADO"
-    }    
+
+class TipoAcceso(models.Model):
+    id_tipo_acceso = models.AutoField(primary_key = True)
     
     TIPO_ACCESOS_CHOICES = {
         "SABRE":"SABRE",
@@ -30,13 +27,25 @@ class Acceso(models.Model):
         "CORREO CON DOMINIO LATAM":"CORREO CON DOMINIO LATAM"
         
     }
+    
+    nombre_acceso = models.CharField(
+        max_length = 50,
+        unique=True,
+        choices = TIPO_ACCESOS_CHOICES,  
+    )
+    
+    def __str__(self):
+        return self.nombre_acceso
+    
+class Acceso(models.Model):
+    ESTADOS_ACCESOS_CHOICES = {
+        "SI":"SI",
+        "NO":"NO",
+        "SOLICITADO":"SOLICITADO"
+    }    
     id_acceso = models.AutoField(primary_key = True)
     usuario = models.ForeignKey(Usuario, on_delete = models.CASCADE)
-    nombre_accceso = models.CharField(
-        max_length = 50,
-        choices = TIPO_ACCESOS_CHOICES
-        
-    )
+    tipo_acceso = models.ForeignKey(TipoAcceso, on_delete = models.CASCADE )
     tiene_acceso = models.CharField(
         max_length = 15,
         choices = ESTADOS_ACCESOS_CHOICES  
