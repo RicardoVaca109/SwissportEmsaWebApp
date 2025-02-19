@@ -11,18 +11,20 @@ def look_buscar_empleado(request):  # Buscar un empleado antes de evaluarlo
     query_busqueda_empleado = request.GET.get('q','').strip()
     query_bp = request.GET.get('bp', '').strip()
     
-    empleados = Usuario.objects.filter(estatus = 'Activo')
+    empleados_activos = None   # Inicialmente, no se carga ningún empleado
     
-    if query_busqueda_empleado:
-        empleados = empleados.filter(
-            nombre__icontains = query_busqueda_empleado
-            ) | empleados.filter(
-                apellido__icontains = query_busqueda_empleado) 
-            
-    if query_bp.isdigit():
-        empleados = empleados.filter(bp__icontains=query_bp)
-        
-    return render(request, 'buscar_empleado.html', {"empleados": empleados, "query_busqueda_empleado": query_busqueda_empleado, "query_bp": query_bp})
+    if query_busqueda_empleado or query_bp.isdigit(): # Solo buscar si hay un criterio
+        empleados_activos = Usuario.objects.filter(estatus='Activo') 
+    
+        if query_busqueda_empleado:
+            empleados_activos = empleados_activos.filter(
+                nombre__icontains = query_busqueda_empleado
+                ) | empleados_activos.filter(
+                    apellido__icontains = query_busqueda_empleado) 
+                
+        if query_bp.isdigit():
+            empleados_activos = empleados_activos.filter(bp__icontains=query_bp)   
+    return render(request, 'buscar_empleado.html', {"empleados_activos": empleados_activos, "query_busqueda_empleado": query_busqueda_empleado, "query_bp": query_bp})
 
 
 def evaluate_evaluar_empleado(request, usuario_id, tipo_evaluacion): # Evaluar al empleado encontrado en Teórica y Práctica
