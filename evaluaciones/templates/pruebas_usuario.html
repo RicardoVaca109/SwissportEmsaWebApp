@@ -5,7 +5,7 @@
 {% block content %}
 <h1 class="text-center">Evaluar a {{ usuario_calificado.nombre }} {{ usuario_calificado.apellido }}</h1>
 
-<form method="POST" action="{% url 'evaluar_empleado' usuario_calificado.id_usuario tipo_evaluacion %}" class="w-50 mx-auto">
+<form method="POST" action="{% url 'evaluar_usuario' usuario_calificado.id_usuario tipo_evaluacion %}" class="w-50 mx-auto">
     {% csrf_token %}
 
     <div class="mb-3">
@@ -39,7 +39,7 @@
     </div>
 
     <button type="submit" class="btn btn-success">Guardar Evaluación</button>
-    <a href="{% url 'buscar_empleado' %}" class="btn btn-secondary">Cancelar</a>
+    <a href="{% url 'buscar_usuario_evaluaciones' %}" class="btn btn-secondary">Cancelar</a>
 </form>
 
 <script>
