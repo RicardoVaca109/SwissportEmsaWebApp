@@ -4,7 +4,7 @@ from django.urls import reverse
 from usuarios.models import Usuario
 from aeropuertos.models import Aeropuerto
 from usuarios.models import Role
-from usuarios.models import CategoriaRole
+from usuarios.models import CategoriaRole 
 
 def navegacion_dashboard_usuarios(request):
     total_usuarios = Usuario.objects.all() # Usuario.objects.select_related('id_aeropuerto', 'id_rol').all()
@@ -28,7 +28,7 @@ def agregar_add_usuarios(request):
         email = request.POST.get('email')
         contrasenia = make_password(request.POST.get('contrasenia'))
         fecha_ingreso = request.POST.get('fecha_ingreso')
-        bp = request.POST.get('bp') 
+        bp = request.POST.get('bp') or None 
         erp = request.POST.get('erp') or None
         estatus = request.POST.get('estatus')
         ubicacion = request.POST.get('ubicacion')
