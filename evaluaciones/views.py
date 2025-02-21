@@ -7,27 +7,27 @@ from evaluaciones.models import Evaluacion
 def navegacion_dashboard_evaluaciones(request):
     return render(request, 'dashboard_evaluaciones.html')
 
-def look_buscar_empleado(request):  # Buscar un empleado antes de evaluarlo
-    query_busqueda_empleado = request.GET.get('q','').strip()
+def look_buscar_usuario(request):  # Buscar un empleado antes de evaluarlo
+    query_busqueda_usuario = request.GET.get('q','').strip()
     query_bp = request.GET.get('bp', '').strip()
     
-    empleados_activos = None   # Inicialmente, no se carga ningún empleado
+    usuarios_activos = None   # Inicialmente, no se carga ningún empleado
     
-    if query_busqueda_empleado or query_bp.isdigit(): # Solo buscar si hay un criterio
-        empleados_activos = Usuario.objects.filter(estatus='Activo') 
+    if query_busqueda_usuario or (query_bp and query_bp.isdigit()): # Solo buscar si hay un criterio
+        usuarios_activos = Usuario.objects.filter(estatus='Activo') 
     
-        if query_busqueda_empleado:
-            empleados_activos = empleados_activos.filter(
-                nombre__icontains = query_busqueda_empleado
-                ) | empleados_activos.filter(
-                    apellido__icontains = query_busqueda_empleado) 
+        if query_busqueda_usuario:
+            usuarios_activos = usuarios_activos.filter(
+                nombre__icontains = query_busqueda_usuario
+                ) | usuarios_activos.filter(
+                    apellido__icontains = query_busqueda_usuario) 
                 
-        if query_bp.isdigit():
-            empleados_activos = empleados_activos.filter(bp__icontains=query_bp)   
-    return render(request, 'buscar_empleado.html', {"empleados_activos": empleados_activos, "query_busqueda_empleado": query_busqueda_empleado, "query_bp": query_bp})
+        if query_bp and query_bp.isdigit():
+            usuarios_activos = usuarios_activos.filter(bp__icontains=query_bp)   
+    return render(request, 'buscar_usuario_evaluaciones.html', {"usuarios_activos": usuarios_activos, "query_busqueda_usuario": query_busqueda_usuario, "query_bp": query_bp})
 
 
-def evaluate_evaluar_empleado(request, usuario_id, tipo_evaluacion): # Evaluar al empleado encontrado en Teórica y Práctica
+def evaluate_evaluar_usuario(request, usuario_id, tipo_evaluacion): # Evaluar al empleado encontrado en Teórica y Práctica
     if 'usuario_id' not in request.session:
         messages.error(request, "Debes Iniciar Sesión para Evaluar")
         return redirect('login_view')
@@ -49,10 +49,10 @@ def evaluate_evaluar_empleado(request, usuario_id, tipo_evaluacion): # Evaluar a
             fecha_calificacion = fecha_calificacion
         )
         
-        messages.success(request, "Evaluación guardada correctamente.")
-        return redirect("buscar_empleado")
+        # messages.success(request, "Evaluación guardada correctamente.")
+        return redirect("buscar_usuario_evaluaciones")
     
-    return render(request, "pruebas_empleado.html", {
+    return render(request, "pruebas_usuario.html", {
         "usuario_calificado": usuario_calificado,
         "tipo_evaluacion": tipo_evaluacion
     })
