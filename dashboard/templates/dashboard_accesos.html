@@ -1,48 +1,16 @@
 {% extends "base.html" %}
 
-{% block title %} Accesos Personal Empleados {% endblock %}
+{% block title %}Accesos{% endblock %}
 
-{%block content%}
-    <h1 class="text-center my-4">Accesos Personal Empleados</h1>
-    <div class="d-flex justify-content-end">
-        <a href="{% url 'add_accesos' %}" class="btn btn-success mb-3 d-flex align-items-center justify-content-center"  style="width: 200px; height: 50px;">
-            <i class="bi bi-plus-circle me-2"></i>Registrar Accesos</a>
-    </div>
-    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-        <table class="table table-hover">
-            <thead class="table-primary text-center">
-                <tr>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>IPVN</th>
-                    <th>Tipo Accesos</th>
-                    <th>Fecha Inicio</th>
-                    <th>Fecha Baja</th>
-                    <th>Editar</th>
-                </tr>   
-            </thead>
-            <tbody>
-                {% for acceso in accesos_empleados%}
-                <tr class="text-center">
-                    <td> {{acceso.id_usuario.nombre}} </td>
-                    <td> {{acceso.id_usuario.apellido}} </td>
-                    <td> {{acceso.identificacion_unica}} </td>
-                    <td> {{acceso.tipo_accesos}} </td>
-                    <td> {{acceso.fecha_iniciacion}} </td>
-                    <td> {{acceso.fecha_de_baja}} </td>
-                    <td></td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="6" class="text-center text-muted">No hay aeropuertos disponibles</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <div class="d-flex justify-content-start mb-3">
-        <a href="{% url 'dashboard_general' %}" class="btn btn-primary">
-            <i class="bi bi-arrow-return-left me-2"></i> Regresar al Dashboard Principal
-        </a>
-    </div>
+{% block content %} 
+<h2>Bienvenido/a {{usuario_nombre}}</h2>
+
+<div class="d-flex flex-column align-items-center gap-3">
+    <a href="{% url 'buscar_empleado_accesos' %}" class="btn btn-primary d-flex align-items-center justify-content-center"  style="width: 200px; height: 50px;">
+        <i class="bi bi-person-raised-hand me-2"></i>Averiguar Accesos</a>
+    <a href="{% url 'add_accesos' %}" class="btn btn-primary d-flex align-items-center justify-content-center" style="width: 200px; height: 50px;">
+        <i class="bi bi-person-plus-fill me-2"></i>Registrar un Acceso
+    </a>
+</div>
+
 {% endblock %}
