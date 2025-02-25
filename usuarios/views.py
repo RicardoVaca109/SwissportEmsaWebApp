@@ -1,5 +1,5 @@
 from django.contrib.auth.hashers import make_password
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from usuarios.models import Usuario
 from aeropuertos.models import Aeropuerto
@@ -55,3 +55,45 @@ def agregar_add_usuarios(request):
         'total_aeropuertos':total_aeropuertos,
         'total_categorias_role':total_categorias_role
         })
+
+def editar_edit_usuarios(request, id_usuario):
+    
+    usuario = get_object_or_404(Usuario, id_usuario = id_usuario)
+    #Obtain all category roles / Obtener las categorias de roles
+    total_categorias_role = CategoriaRole.objects.all() 
+    # Obtain all roles / Obtener todos los roles
+    total_roles = Role.objects.all()
+    # Obtain total airports / Obtener total aeropuertos 
+    total_aeropuertos = Aeropuerto.objects.all()
+    
+    if request.method == 'POST':
+        usuario.aeropuerto = Aeropuerto.objects.get(pk = request.POST.get('id_aeropuerto'))
+        usuario.rol= Role.objects.get(pk = request.POST.get('id_rol'))
+        usuario.categoria_rol = CategoriaRole.objects.get(pk = request.POST.get('id_categoria_rol')) 
+        usuario.nombre = request.POST.get('nombre')
+        usuario.apellido = request.POST.get('apellido')
+        usuario.email = request.POST.get('email')
+        usuario.contrasenia = make_password(request.POST.get('contrasenia'))
+        usuario.fecha_ingreso = request.POST.get('fecha_ingreso')
+        usuario.bp = request.POST.get('bp') or None 
+        usuario.erp = request.POST.get('erp') or None
+        usuario.estatus = request.POST.get('estatus')
+        usuario.ubicacion = request.POST.get('ubicacion')
+        
+        nueva_contrasenia = request.POST.get('contrasenia')
+        if nueva_contrasenia:
+            usuario.contrasenia = make_password(nueva_contrasenia)
+
+        usuario.save()
+        return redirect(reverse('dashboard_usuarios'))
+    
+    return render(request, 'edit_usuarios_tmp.html', {
+        'usuario': usuario,
+        'total_roles': total_roles,
+        'total_aeropuertos': total_aeropuertos,
+        'total_categorias_role': total_categorias_role
+    })
+        
+    
+    
+    
