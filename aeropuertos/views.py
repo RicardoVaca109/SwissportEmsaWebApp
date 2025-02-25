@@ -39,7 +39,7 @@ def editar_edit_aeropuerto(request, id_aeropuerto):
         aeropuerto.tipo_aeropuerto = request.POST.get('tipo_aeropuerto')
         aeropuerto.save()
         return redirect(reverse('dashboard_aeropuertos'))
-    return render(request, 'dashboard_aeropuertos.html', {'total_aeropuertos': Aeropuerto.objects.all()})
+    return render(request, 'edit_aeropuertos_tmp.html', {'aeropuerto': aeropuerto})
 
 
 def eliminar_delete_aeropuerto(request, id_aeropuerto):
