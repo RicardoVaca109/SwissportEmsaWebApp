@@ -15,10 +15,25 @@ def auth_login_view(request):
                         request.session['usuario_id'] = usuario.id_usuario  # Guardar en sesión
                         request.session['usuario_nombre'] = usuario.nombre
                         
-                        if usuario.rol and usuario.rol.nombre_rol == "OJT":
-                            return redirect("dashboard_rol_ojt")# Validación Rol OJT
+                        redirecciones_por_rol = [
+                            {
+                                "roles" : ["KAM","KAM Nacional","Supervisor"],
+                                "condicion": lambda usuario_validar_rol: usuario_validar_rol.bp is not None,
+                                "url": "dashboard_accesos"                           
+                            },
+                            {
+                                "roles" : ["OJT"],
+                                "condicion": lambda usuario_validar_rol: True,
+                                "url": "dashboard_rol_ojt"                                
+                            },
+                        ]
                         
-                        return redirect("dashboard_general")  # Redirigir al dashboard
+                        for regla in redirecciones_por_rol:
+                            if usuario.rol.nombre_rol in regla["roles"] and regla["condicion"](usuario):
+                                
+                                return redirect(regla["url"])
+                            
+                        return redirect("dashboard_general")
                     else:
                         messages.error(request, "Contraseña incorrecta")
             except Usuario.DoesNotExist:
