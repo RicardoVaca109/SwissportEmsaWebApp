@@ -52,5 +52,5 @@ class Acceso(models.Model):
     )
     
     def __str__(self):
-        return f"Acceso: {self.id_acceso} - Usuario: {self.usuario.nombre} - Tipo: {self.nombre_accceso} - Estado: {self.tiene_acceso}"
+        return f"Acceso: {self.id_acceso} - Usuario: {self.usuario.nombre} - Tipo: {self.tipo_acceso} - Estado: {self.tiene_acceso}"
 
