@@ -1,39 +1,96 @@
-from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Q
+from django.db import transaction
 from accesos.models import Acceso
-from usuarios.models import Role
+from accesos.models import TipoAcceso
 from usuarios.models import Usuario
 
 
 def navegacion_dashboard_accesos(request):
-    # Filtrar usuarios con rol 'Empelado'
-    rol_empleado = Role.objects.get(nombre_rol = "Empleado")
+    usuario_nombre = request.session.get('usuario_nombre', 'Usuario')
+    return render(request, 'dashboard_accesos.html', {"usuario_nombre": usuario_nombre})
+
+def look_buscar_usuario_accesos(request):
+    query_busqueda_usuario = request.GET.get('q', '').strip()
+    query_bp = request.GET.get('bp', '').strip()
+    query_erp = request.GET.get('erp', '').strip()
     
-    usuarios_empleados = Usuario.objects.filter(id_rol = rol_empleado) # Filtra usuarios con rol 'Empleado'
+    usuarios_activos = None  
+    accesos_usuarios = {}  
     
-    accesos_empleados = Acceso.objects.filter(id_usuario__in = usuarios_empleados)
-    return render(request, 'dashboard_accesos.html', {'accesos_empleados': accesos_empleados})
+    if query_busqueda_usuario or (query_bp and query_bp.isdigit()) or (query_erp and query_erp.isdigit()):
+        usuarios_activos = Usuario.objects.filter(estatus='Activo')
+        
+
+        if query_busqueda_usuario:
+            usuarios_activos = usuarios_activos.filter(
+                Q(nombre__icontains=query_busqueda_usuario) |
+                Q(apellido__icontains=query_busqueda_usuario)
+            )
+        
+        if query_bp and query_bp.isdigit():
+            usuarios_activos = usuarios_activos.filter(bp__icontains=query_bp)
+        
+        if query_erp and query_erp.isdigit():
+            usuarios_activos = usuarios_activos.filter(erp__icontains=query_erp)
+        
+        # Obtener accesos para cada usuario y almacenarlos en el diccionario
+        for usuario in usuarios_activos:
+            accesos_usuarios[usuario.id_usuario] = list(Acceso.objects.filter(usuario=usuario))
+
+    return render(request, 'buscar_usuario_accesos.html', {
+        "usuarios_activos": usuarios_activos,
+        "accesos_usuarios": accesos_usuarios,
+        "query_busqueda_usuario": query_busqueda_usuario,
+        "query_bp": query_bp,
+        "query_erp": query_erp
+    })
 
 def agregar_add_accesos(request):
-    if request.method == 'POST':
-        id_usuario = request.POST.get('id_usuario')
-        tipo_accesos = request.POST.get('tipo_accesos')
-        identificacion_unica = request.POST.get('identificacion_unica')
-        fecha_iniciacion = request.POST.get('fecha_iniciacion')
-        fecha_de_baja = request.POST.get('fecha_de_baja', None)
+    query_busqueda_usuario = request.GET.get('q', '').strip()
+    query_bp = request.GET.get('bp', '').strip()
+    query_erp = request.GET.get('erp', '').strip()
 
-        # Validación básica: verifica que los datos esenciales estén completos
-        if id_usuario and tipo_accesos and identificacion_unica and fecha_iniciacion:
-            Acceso.objects.create(
-                id_usuario=Usuario.objects.get(id_usuario=id_usuario),  # Obtén el usuario con la ID dada
-                tipo_accesos=tipo_accesos,
-                identificacion_unica=identificacion_unica,
-                fecha_iniciacion=fecha_iniciacion,
-                fecha_de_baja=fecha_de_baja if fecha_de_baja else None,  # Permitir que sea opcional
+    usuarios_activos = Usuario.objects.filter(estatus='Activo')
+    tipos_acceso = TipoAcceso.objects.all() # Obtener los accesos todos
+
+    if query_busqueda_usuario:
+            usuarios_activos = usuarios_activos.filter(
+                nombre__icontains=query_busqueda_usuario
+            ) | usuarios_activos.filter(
+                apellido__icontains=query_busqueda_usuario
             )
-            return redirect(reverse('dashboard_accesos'))
-    
-    # Si el método es GET, mostrar el formulario con usuarios de rol "Empleado"
-    rol_empleado = Role.objects.get(nombre_rol="Empleado")
-    usuarios_empleados = Usuario.objects.filter(id_rol=rol_empleado)
-    return render(request, 'add_accesos_tmp.html', {'usuarios_empleados': usuarios_empleados})
+    if query_bp and query_bp.isdigit():
+        usuarios_activos = usuarios_activos.filter(bp__icontains=query_bp)
+    if query_erp and query_erp.isdigit():
+        usuarios_activos = usuarios_activos.filter(erp__icontains=query_erp)
+
+    if request.method == "POST":
+        id_usuario = request.POST.get("id_usuario")
+        usuario = get_object_or_404(Usuario, id_usuario=id_usuario)
+        
+        # Obtener accesos existentes del usuario
+        accesos_existentes = Acceso.objects.filter(usuario=usuario).values_list("tipo_acceso_id", flat=True)
+
+        # Guardar accesos seleccionados en una transacción
+        with transaction.atomic():
+            for acceso in tipos_acceso:
+                estado_acceso = request.POST.get(f"acceso_{acceso.id_tipo_acceso}")
+
+                if estado_acceso and acceso.id_tipo_acceso not in accesos_existentes:
+                    nuevo_acceso = Acceso(
+                        usuario=usuario,
+                        tipo_acceso=acceso,
+                        tiene_acceso=estado_acceso
+                    )
+                    nuevo_acceso.save()
+
+        return redirect('add_accesos')
+
+    return render(request, 'add_accesos_tmp.html', {
+        "usuarios_activos": usuarios_activos,
+        "tipos_acceso": tipos_acceso,
+        "query_busqueda_usuario": query_busqueda_usuario,
+        "query_bp": query_bp,
+        "query_erp": query_erp,
+    })
