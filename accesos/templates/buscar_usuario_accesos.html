@@ -1,0 +1,92 @@
+{% extends "base.html" %} 
+
+{% block title %}Buscar usuario con accesos{% endblock %}
+
+{% block content %}
+
+<form method="GET" action="{% url 'buscar_usuario_accesos' %}" class="d-flex justify-content-center mb-4">
+  <input
+    type="text"
+    name="q"
+    class="form-control w-50"
+    placeholder="Buscar por nombres o apellidos"
+    value="{{ query_busqueda_usuario }}"
+    pattern="[A-Za-zÀ-ÿ\s]+"
+    title="Solo se permiten letras y espacios"
+  />
+  <button type="submit" class="btn btn-primary ms-2">Buscar</button>
+</form>
+
+<!-- Formulario de búsqueda por BP (máximo 7 números) -->
+<form method="GET" action="{% url 'buscar_usuario_accesos' %}" class="d-flex justify-content-center mb-4">
+  <input
+    type="text"
+    name="bp"
+    class="form-control w-50"
+    placeholder="Buscar por BP (máx. 7 números)"
+    value="{{ query_bp }}"
+    maxlength="7"
+    pattern="[0-9]{1,7}"
+    title="Debe contener solo números (máx. 7)"
+  />
+  <button type="submit" class="btn btn-success ms-2">Buscar</button>
+</form>
+
+<!-- Formulario de búsqueda por ERP (máximo 6 números) -->
+<form method="GET" action="{% url 'buscar_usuario_accesos' %}" class="d-flex justify-content-center mb-4">
+  <input
+    type="text"
+    name="erp"
+    class="form-control w-50"
+    placeholder="Buscar por ERP (máx. 6 números)"
+    value="{{ query_erp }}"
+    maxlength="6"
+    pattern="[0-9]{1,6}"
+    title="Debe contener solo números (máx. 6)"
+  />
+  <button type="submit" class="btn btn-success ms-2">Buscar</button>
+</form>
+
+<div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+  <!-- Lista de usuarios Busqueda -->
+  {% for usuario in usuarios_activos %}
+  <h3 class="text-center mt-4">{{ usuario.nombre }} {{ usuario.apellido }}</h3>
+
+  {% if usuario.id_usuario in accesos_usuarios %}
+    <div class="table-responsive mt-3">
+      <table class="table table-bordered">
+        <thead class="table-primary text-center">
+          <tr>
+            <th>Acceso</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for acceso in accesos_usuarios.items %}
+            {% if acceso.0 == usuario.id_usuario %}
+              {% for detalle in acceso.1 %}
+                <tr>
+                  <td>{{ detalle.tipo_acceso }}</td>
+                  <td>{{ detalle.tiene_acceso }}</td>
+                </tr>
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="text-center text-muted">No tiene accesos asignados.</p>
+  {% endif %}
+{% endfor %}
+
+</div>
+
+<!-- Botón para regresar -->
+<div class="d-flex justify-content-start mt-3">
+  <a href="{% url 'dashboard_accesos' %}" class="btn btn-primary">
+    <i class="bi bi-arrow-return-left me-2"></i> Regresar
+  </a>
+</div>
+
+{% endblock %}
