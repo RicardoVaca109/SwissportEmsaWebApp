@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Aeropuerto{% endblock %}
+
+{% block content %}
+    <h1 class="text-center my-4">Editar Aeropuerto</h1>
+    <form method="post" action="{% url 'edit_aeropuertos' aeropuerto.id_aeropuerto %}">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="estacion_aeropuerto" class="form-label">Estación (Código IATA)</label>
+            <input type="text" class="form-control" id="estacion_aeropuerto" name="estacion_aeropuerto" maxlength="3" value="{{ aeropuerto.estacion_aeropuerto }}" required style="text-transform: uppercase;">
+        </div>
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" maxlength="80" value="{{ aeropuerto.nombre }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="ciudad" class="form-label">Ciudad</label>
+            <input type="text" class="form-control" id="ciudad" name="ciudad" maxlength="80" value="{{ aeropuerto.ciudad }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="pais" class="form-label">País</label>
+            <input type="text" class="form-control" id="pais" name="pais" maxlength="80" value="{{ aeropuerto.pais }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="tipo_aeropuerto" class="form-label">Tipo de Aeropuerto</label>
+            <select class="form-control" id="tipo_aeropuerto" name="tipo_aeropuerto" required>
+                <option value="Internacional" {% if aeropuerto.tipo_aeropuerto == "Internacional" %}selected{% endif %}>Internacional</option>
+                <option value="Nacional" {% if aeropuerto.tipo_aeropuerto == "Nacional" %}selected{% endif %}>Nacional</option>
+            </select>
+        </div>
+        
+        <div class="d-flex gap-2 mt-2">
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <a href="{% url 'dashboard_aeropuertos' %}" class="btn btn-secondary">
+                <i class="bi bi-arrow-return-left me-2"></i> Cancelar
+            </a>
+        </div>
+    </form>
+{% endblock %}
