@@ -3,56 +3,113 @@
 {% block title %}Agregar Acceso{% endblock %}
 
 {% block content %}
-    <h1 class="text-center my-4">Registrar Acceso</h1>
-    <form method="post" action="{% url 'add_accesos' %}">
-        {% csrf_token %}
 
-        <!-- Dropdown menu para seleccionar usuario con rol Empleado -->
-        <div class="mb-3">
-            <label for="id_usuario" class="form-label">Usuario (Empleado)</label>
-            <select class="form-control" id="id_usuario" name="id_usuario" required>
-                <option value="">Seleccione un usuario</option>
-                {% for usuario in usuarios_empleados %}
-                    <option value="{{ usuario.id_usuario }}">{{ usuario.nombre }} {{ usuario.apellido }}</option>
-                {% endfor %}
-            </select>
-        </div>
+<h2 class="text-center mt-3">Agregar Acceso a un Usuario</h2>
 
-        <!-- Dropdown menu para seleccionar tipo de acceso -->
-        <div class="mb-3">
-            <label for="tipo_accesos" class="form-label">Tipo de Acceso</label>
-            <select class="form-control" id="tipo_accesos" name="tipo_accesos" required>
-                <option value="Amadeus">Amadeus</option>
-                <option value="SABRE">SABRE</option>
-            </select>
-        </div>
+<!-- Formularios de búsqueda -->
+<form method="GET" action="{% url 'add_accesos' %}" class="d-flex justify-content-center mb-3">
+  <input type="text" name="q" class="form-control w-50" placeholder="Buscar por nombre o apellido" value="{{ query_busqueda_usuario }}">
+  <button type="submit" class="btn btn-primary ms-2">Buscar</button>
+</form>
 
-        <!-- Campo para ingresar identificación única -->
-        <div class="mb-3">
-            <label for="identificacion_unica" class="form-label">Identificación Única</label>
-            <input type="text" class="form-control" id="identificacion_unica" name="identificacion_unica" maxlength="20" placeholder="Ej: 12345678" required>
-        </div>
+<form method="GET" action="{% url 'add_accesos' %}" class="d-flex justify-content-center mb-3">
+  <input type="text" name="bp" class="form-control w-50" placeholder="Buscar por BP" value="{{ query_bp }}">
+  <button type="submit" class="btn btn-success ms-2">Buscar</button>
+</form>
 
-        <!-- Campo para fecha de iniciación -->
-        <div class="mb-3">
-            <label for="fecha_iniciacion" class="form-label">Fecha de Iniciación</label>
-            <input type="date" class="form-control" id="fecha_iniciacion" name="fecha_iniciacion" required>
-        </div>
+<form method="GET" action="{% url 'add_accesos' %}" class="d-flex justify-content-center mb-3">
+  <input type="text" name="erp" class="form-control w-50" placeholder="Buscar por ERP" value="{{ query_erp }}">
+  <button type="submit" class="btn btn-success ms-2">Buscar</button>
+</form>
 
-        <!-- Campo para fecha de baja (opcional) -->
-        <div class="mb-3">
-            <label for="fecha_de_baja" class="form-label">Fecha de Baja (opcional)</label>
-            <input type="date" class="form-control" id="fecha_de_baja" name="fecha_de_baja">
-        </div>
+<!-- Tabla de usuarios -->
+{% if query_busqueda_usuario or query_bp or query_erp %}
+{% if usuarios_activos %}
+<table class="table table-bordered mt-4">
+  <thead class="table-primary text-center">
+    <tr>
+      <th>Nombre</th>
+      <th>BP</th>
+      <th>ERP</th>
+      <th>Acción</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for usuario in usuarios_activos %}
+    <tr>
+      <td>{{ usuario.nombre }} {{ usuario.apellido }}</td>
+      <td>{{ usuario.bp }}</td>
+      <td>{{ usuario.erp }}</td>
+      <td>
+        <button class="btn btn-primary btn-sm" onclick="seleccionarUsuario('{{ usuario.id_usuario }}', '{{ usuario.nombre }} {{ usuario.apellido }}')">
+          Seleccionar
+        </button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+    <p class="text-center text-danger">No se encontraron usuarios con esos criterios de búsqueda.</p>
+{% endif %}
+{% endif %}
 
-        <!-- Contenedor para los botones -->
-        <div class="d-flex gap-2 mt-2">
-            <!-- Botón para agregar acceso -->
-            <button type="submit" class="btn btn-primary">Registrar Acceso</button>
-            <!-- Botón para regresar -->
-            <a href="{% url 'dashboard_accesos' %}" class="btn btn-secondary">
-                <i class="bi bi-arrow-return-left me-2"></i> Regresar
-            </a>
-        </div>
-    </form>
+<!-- Formulario para asignar accesos -->
+<form method="POST" action="{% url 'add_accesos' %}" class="mt-4" id="form_acceso" style="display: none;">
+  {% csrf_token %}
+  <input type="hidden" name="id_usuario" id="id_usuario">
+
+  <h3 class="text-center">Asignar Accesos</h3>
+  <p class="text-center"><strong>Usuario Seleccionado:</strong> <span id="usuario_seleccionado"></span></p>
+
+  <!-- Tabla de accesos -->
+  <table class="table table-bordered">
+    <thead class="table-secondary text-center">
+      <tr>
+        <th>Acceso</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for acceso in tipos_acceso %}
+        {% with usuario_accesos=usuario.acceso_set.all %}
+          {% with acceso_existente=usuario_accesos|dictsort:"tipo_acceso.id_tipo_acceso"|first %}
+            <tr>
+              <td>{{ acceso.nombre_acceso }}</td>
+              <td>
+                {% if acceso_existente and acceso_existente.tipo_acceso.id_tipo_acceso == acceso.id_tipo_acceso %}
+                  <input type="text" class="form-control" value="{{ acceso_existente.tiene_acceso }}" readonly>
+                {% else %}
+                  <select name="acceso_{{ acceso.id_tipo_acceso }}" class="form-control">
+                    <option value="">No asignar</option>
+                    <option value="SI">SI</option>
+                    <option value="NO">NO</option>
+                    <option value="SOLICITADO">SOLICITADO</option>
+                  </select>
+                {% endif %}
+              </td>
+            </tr>
+          {% endwith %}
+        {% endwith %}
+      {% endfor %}
+    </tbody>
+  </table>
+  <button type="submit" class="btn btn-success">Guardar Accesos</button>
+</form>
+
+<!-- Botón para regresar -->
+<div class="d-flex justify-content-start mt-3">
+  <a href="{% url 'dashboard_accesos' %}" class="btn btn-primary">
+    <i class="bi bi-arrow-return-left me-2"></i> Regresar
+  </a>
+</div>
+
+<script>
+  function seleccionarUsuario(id, nombre) {
+    document.getElementById("id_usuario").value = id;
+    document.getElementById("usuario_seleccionado").innerText = nombre;
+    document.getElementById("form_acceso").style.display = "block";
+  }
+</script>
+
 {% endblock %}
