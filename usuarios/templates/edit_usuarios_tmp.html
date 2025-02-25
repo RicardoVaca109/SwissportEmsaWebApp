@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Usuario{% endblock %}
+
+{% block content %}
+    <h2 class="text-center my-4">Editar Usuario</h2>
+    
+    <form method="post" action="{% url 'edit_usuarios' usuario.id_usuario %}">
+        {% csrf_token %}
+
+
+        <div class="mb-3">
+            <label for="id_rol" class="form-label">Rol</label>
+            <select class="form-control" id="id_rol" name="id_rol" required>
+                {% for rol in total_roles %}
+                    <option value="{{ rol.id_rol }}" {% if usuario.rol.id_rol == rol.id_rol %} selected {% endif %}>
+                        {{ rol.nombre_rol }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="id_categoria_rol" class="form-label">Categoría de Rol</label>
+            <select class="form-control" id="id_categoria_rol" name="id_categoria_rol">
+                <option value="" {% if not usuario.categoria_rol %} selected {% endif %}>Sin categoría</option>
+                {% for categoria in total_categorias_role %}
+                    <option value="{{ categoria.id_categoria_rol }}" {% if usuario.categoria_rol and usuario.categoria_rol.id_categoria_rol == categoria.id_categoria_rol %} selected {% endif %}>
+                        {{ categoria.nombre_categoria }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" value="{{ usuario.nombre }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="apellido" class="form-label">Apellido</label>
+            <input type="text" class="form-control" id="apellido" name="apellido" value="{{ usuario.apellido }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Correo Electrónico</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ usuario.email }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="fecha_ingreso" class="form-label">Fecha de Ingreso</label>
+            <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso" value="{{ usuario.fecha_ingreso|date:'Y-m-d' }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="id_aeropuerto" class="form-label">Aeropuerto</label>
+            <select class="form-control" id="id_aeropuerto" name="id_aeropuerto" required>
+                {% for aeropuerto in total_aeropuertos %}
+                    <option value="{{ aeropuerto.id_aeropuerto }}" {% if usuario.aeropuerto.id_aeropuerto == aeropuerto.id_aeropuerto %} selected {% endif %}>
+                        {{ aeropuerto.nombre }} ({{ aeropuerto.estacion_aeropuerto }})
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="bp" class="form-label">BP</label>
+            <input type="text" class="form-control" id="bp" name="bp" value="{{ usuario.bp }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="erp" class="form-label">ERP</label>
+            <input type="text" class="form-control" id="erp" name="erp" value="{{ usuario.erp }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="estatus" class="form-label">Estatus</label>
+            <select class="form-control" id="estatus" name="estatus">
+                <option value="Activo" {% if usuario.estatus == "Activo" %} selected {% endif %}>Activo</option>
+                <option value="Inactivo" {% if usuario.estatus == "Inactivo" %} selected {% endif %}>Inactivo</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="ubicacion" class="form-label">Ubicación</label>
+            <select class="form-control" id="ubicacion" name="ubicacion">
+                <option value="Bajo Ala" {% if usuario.ubicacion == "Bajo Ala" %} selected {% endif %}>Bajo Ala</option>
+                <option value="Sobre Ala" {% if usuario.ubicacion == "Sobre Ala" %} selected {% endif %}>Sobre Ala</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="contrasenia" class="form-label">Nueva Contraseña (opcional)</label>
+            <input type="password" class="form-control" id="contrasenia" name="contrasenia">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <a href="{% url 'dashboard_usuarios' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+{% endblock %}
