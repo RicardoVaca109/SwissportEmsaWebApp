@@ -7,8 +7,6 @@
     
     <form method="post" action="{% url 'edit_usuarios' usuario.id_usuario %}">
         {% csrf_token %}
-
-
         <div class="mb-3">
             <label for="id_rol" class="form-label">Rol</label>
             <select class="form-control" id="id_rol" name="id_rol" required>
