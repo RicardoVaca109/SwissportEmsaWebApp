@@ -68,7 +68,7 @@ def editar_edit_usuarios(request, id_usuario):
     
     if request.method == 'POST':
         usuario.aeropuerto = Aeropuerto.objects.get(pk = request.POST.get('id_aeropuerto'))
-        usuario.rol= Role.objects.get(pk = request.POST.get('id_rol'))
+        usuario.rol = Role.objects.get(pk = request.POST.get('id_rol'))
         usuario.categoria_rol = CategoriaRole.objects.get(pk = request.POST.get('id_categoria_rol')) 
         usuario.nombre = request.POST.get('nombre')
         usuario.apellido = request.POST.get('apellido')
