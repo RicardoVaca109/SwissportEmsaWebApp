@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2 class="text-center mb-4">Agregar un Nuevo Evento</h2>
+    <h2 class="text-center mb-4">Agregar un Nuevo Atraso</h2>
     <div class="card p-4 shadow-sm">
     <form method="post" action="{% url 'add_atrasos' %}">
         {% csrf_token %}
@@ -15,7 +15,7 @@
                 <option value="" disabled selected>Selecciona un vuelo</option>
                 {% for vuelo in total_vuelos %}
                     <option value="{{vuelo.id_vuelo }}">
-                        {{ vuelo.codigo_del_vuelo }} - {{ vuelo.origen_vuelo}} → {{vuelo.destino_vuelo }} 
+                        {{vuelo.codigo_del_vuelo}} - {{vuelo.origen_vuelo.estacion_aeropuerto}} → {{vuelo.destino_vuelo.estacion_aeropuerto}} |Fecha Vuelo: {{vuelo.fecha_vuelo}}|
                     </option>
                 {% endfor %}
             </select>
