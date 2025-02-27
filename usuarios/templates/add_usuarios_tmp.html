@@ -16,8 +16,8 @@
         </div>
         <div class="mb-3">
             <label for="id_categoria_rol" class="form-label">Categoria Rol</label>
-            <select class="form-control" id="id_categoria_rol" name="id_categoria_rol">
-                <option value="" disabled selected>Selecciona una Categoria Rol (Opcional)</option>
+            <select class="form-control" id="id_categoria_rol" name="id_categoria_rol" required>
+                <option value="" disabled selected>Selecciona una Categoria Rol</option>
                 {% for categoria_rol in total_categorias_role %}
                 <option value="{{ categoria_rol.id_categoria_rol }}"> {{categoria_rol.nombre_categoria}} </option>
                 {% endfor %}
