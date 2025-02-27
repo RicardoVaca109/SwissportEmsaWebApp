@@ -36,9 +36,13 @@
                     <td> {{vuelo.aeronave.matricula_aeronave}} </td>
                     <td> {{vuelo.aeronave.aerolinea}} </td>
                     <td> {{ vuelo.fecha_vuelo}} </td>
-                    <td> {{vuelo.hora_llegada}} </td>
                     <td> {{vuelo.hora_salida}} </td>
-                    <td> </td>
+                    <td> {{vuelo.hora_llegada}} </td>
+                    <td> 
+                        <a href="{% url 'edit_vuelos' vuelo.id_vuelo %}" class="btn btn-warning btn-sm">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>
