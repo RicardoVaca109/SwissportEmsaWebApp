@@ -14,7 +14,9 @@
                 <select name='id_vuelo' id='id_vuelo' class="form-select" required>
                     <option value="" selected disabled>Seleccione un vuelo</option>
                     {% for vuelo in total_vuelos %}
-                        <option value="{{ vuelo.id_vuelo }}">{{ vuelo.codigo_del_vuelo }}</option>
+                        <option value="{{ vuelo.id_vuelo }}">
+                            {{vuelo.codigo_del_vuelo}} - {{vuelo.origen_vuelo.estacion_aeropuerto}} → {{vuelo.destino_vuelo.estacion_aeropuerto}} |Fecha Vuelo: {{vuelo.fecha_vuelo}}|
+                        </option>
                     {% endfor %}
                 </select>
             </div>
