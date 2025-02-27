@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Vuelo{% endblock %}
+
+{% block content %}
+    <form method="post" action="{% url 'edit_vuelos' vuelo.id_vuelo %}">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="codigo_del_vuelo" class="form-label">Código del Vuelo</label>
+            <input type="text" class="form-control" id="codigo_del_vuelo" name="codigo_del_vuelo" maxlength="15" value="{{vuelo.codigo_del_vuelo}}" required>
+        </div>
+        <div class="mb-3">
+            <label for="origen_vuelo" class="form-label">Aeropuerto de Origen</label>
+            <select class="form-control" id="origen_vuelo" name="origen_vuelo" required>
+                {% for aeropuerto in total_aeropuertos %}
+                    <option value="{{ aeropuerto.id_aeropuerto }}" {% if vuelo.origen_vuelo.id_aeropuerto == aeropuerto.id_aeropuerto %} selected {% endif %}>
+                        {{ aeropuerto.nombre }} ({{ aeropuerto.estacion_aeropuerto }})
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="destino_vuelo" class="form-label">Aeropuerto de Destino</label>
+            <select class="form-control" id="destino_vuelo" name="destino_vuelo" required>
+                {% for aeropuerto in total_aeropuertos %}
+                    <option value="{{ aeropuerto.id_aeropuerto }}" {% if vuelo.destino_vuelo.id_aeropuerto == aeropuerto.id_aeropuerto %} selected {% endif %}>
+                        {{ aeropuerto.nombre }} ({{ aeropuerto.estacion_aeropuerto }})
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="escala_intermedia" class="form-label">Aeropuerto Escala</label>
+            <select class="form-control" id="escala_intermedia" name="escala_intermedia">
+                <option value="" {% if vuelo.escala_intermedia is None %} selected {% endif %}>Sin escala</option>
+                {% for aeropuerto in total_aeropuertos %}
+                    <option value="{{ aeropuerto.id_aeropuerto }}" {% if vuelo.escala_intermedia and vuelo.escala_intermedia.id_aeropuerto == aeropuerto.id_aeropuerto %} selected {% endif %}>
+                        {{ aeropuerto.nombre }} ({{ aeropuerto.estacion_aeropuerto }})
+                    </option>
+                {% endfor %}
+            </select>
+        </div>        
+        <div class="mb-3">
+            <label for="aeronave" class="form-label">Aeronave</label>
+            <select class="form-control" id="aeronave" name="aeronave" required>
+                {% for aeronave in total_aeronaves %}
+                    <option value="{{ aeronave.id_aeronave }}" {% if vuelo.aeronave.id_aeronave == aeronave.id_aeronave %} selected {% endif %} >
+                        {{ aeronave.nombre_aeronave }} - {{ aeronave.matricula_aeronave }} - {{aeronave.aerolinea}} - {{aeronave.tipo_de_aeronave}} 
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="fecha_vuelo" class="form-label">Fecha del Vuelo</label>
+            <input type="date" class="form-control" id="fecha_vuelo" name="fecha_vuelo" required>
+        </div>
+        <div class="mb-3">
+            <label for="hora_salida" class="form-label">Hora de Salida</label>
+            <input type="time" class="form-control" id="hora_salida" name="hora_salida" required>
+        </div>
+        <div class="mb-3">
+            <label for="hora_llegada" class="form-label">Hora de Llegada</label>
+            <input type="time" class="form-control" id="hora_llegada" name="hora_llegada" required>
+        </div>
+        <!-- Botones -->
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <a href="{% url 'dashboard_vuelos' %}" class="btn btn-secondary">Cancelar</a>
+
+    </form>
+{% endblock %}
