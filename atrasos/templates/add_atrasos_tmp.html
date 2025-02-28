@@ -15,7 +15,7 @@
                 <option value="" disabled selected>Selecciona un vuelo</option>
                 {% for vuelo in total_vuelos %}
                     <option value="{{vuelo.id_vuelo }}">
-                        {{vuelo.codigo_del_vuelo}} - {{vuelo.origen_vuelo.estacion_aeropuerto}} → {{vuelo.destino_vuelo.estacion_aeropuerto}} |Fecha Vuelo: {{vuelo.fecha_vuelo}}|
+                       Vuelo: {{vuelo.codigo_del_vuelo}} - Matrícula: {{vuelo.aeronave.matricula_aeronave}}  - Origen: {{vuelo.origen_vuelo.estacion_aeropuerto}} → Destino: {{vuelo.destino_vuelo.estacion_aeropuerto}} |Fecha Vuelo: {{vuelo.fecha_vuelo}}|
                     </option>
                 {% endfor %}
             </select>

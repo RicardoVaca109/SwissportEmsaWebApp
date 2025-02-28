@@ -7,7 +7,7 @@ from evaluaciones.models import Evaluacion
 def navegacion_dashboard_evaluaciones(request):
     return render(request, 'dashboard_evaluaciones.html')
 
-def look_buscar_usuario(request):  # Buscar un empleado antes de evaluarlo
+def look_buscar_usuario_evaluaciones(request):  # Buscar un empleado antes de evaluarlo
     query_busqueda_usuario = request.GET.get('q','').strip()
     query_bp = request.GET.get('bp', '').strip()
     
