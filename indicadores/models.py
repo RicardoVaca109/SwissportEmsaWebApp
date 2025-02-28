@@ -19,8 +19,8 @@ class Indicador(models.Model):
     )
     comentario = models.TextField()  
     fecha_creacion = models.DateField(auto_now = False, auto_now_add = False)  
-    fecha_inicio =models.DateField(auto_now = False, auto_now_add = False) 
-    fecha_fin = models.DateField(auto_now = False, auto_now_add = False)  
+    fecha_inicio =models.DateField(auto_now = False, auto_now_add = False, blank=True, null=True) 
+    fecha_fin = models.DateField(auto_now = False, auto_now_add = False, blank=True, null=True)  
 
     def __str__(self):
         return f"Indicador {self.id_indicador} - {self.usuario_al_cual_registra.nombre} - {self.tipo_indicador} - {self.fecha_creacion}"
