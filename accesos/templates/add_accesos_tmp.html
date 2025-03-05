@@ -7,17 +7,17 @@
 <h2 class="text-center mt-3">Agregar Acceso a un Usuario</h2>
 
 <!-- Formularios de búsqueda -->
-<form method="GET" action="{% url 'add_accesos' %}" class="d-flex justify-content-center mb-3">
+<form method="GET" action="{% url 'add_accesos_usuarios' %}" class="d-flex justify-content-center mb-3">
   <input type="text" name="q" class="form-control w-50" placeholder="Buscar por nombre o apellido" value="{{ query_busqueda_usuario }}">
   <button type="submit" class="btn btn-primary ms-2">Buscar</button>
 </form>
 
-<form method="GET" action="{% url 'add_accesos' %}" class="d-flex justify-content-center mb-3">
+<form method="GET" action="{% url 'add_accesos_usuarios' %}" class="d-flex justify-content-center mb-3">
   <input type="text" name="bp" class="form-control w-50" placeholder="Buscar por BP" value="{{ query_bp }}">
   <button type="submit" class="btn btn-success ms-2">Buscar</button>
 </form>
 
-<form method="GET" action="{% url 'add_accesos' %}" class="d-flex justify-content-center mb-3">
+<form method="GET" action="{% url 'add_accesos_usuarios' %}" class="d-flex justify-content-center mb-3">
   <input type="text" name="erp" class="form-control w-50" placeholder="Buscar por ERP" value="{{ query_erp }}">
   <button type="submit" class="btn btn-success ms-2">Buscar</button>
 </form>
@@ -55,7 +55,7 @@
 {% endif %}
 
 <!-- Formulario para asignar accesos -->
-<form method="POST" action="{% url 'add_accesos' %}" class="mt-4" id="form_acceso" style="display: none;">
+<form method="POST" action="{% url 'add_accesos_usuarios' %}" class="mt-4" id="form_acceso" style="display: none;">
   {% csrf_token %}
   <input type="hidden" name="id_usuario" id="id_usuario">
 
@@ -81,7 +81,6 @@
                   <input type="text" class="form-control" value="{{ acceso_existente.tiene_acceso }}" readonly>
                 {% else %}
                   <select name="acceso_{{ acceso.id_tipo_acceso }}" class="form-control">
-                    <option value="">No asignar</option>
                     <option value="SI">SI</option>
                     <option value="NO">NO</option>
                     <option value="SOLICITADO">SOLICITADO</option>
