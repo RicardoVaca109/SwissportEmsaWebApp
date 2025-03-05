@@ -5,45 +5,19 @@
 {% block content %}
 
 <form method="GET" action="{% url 'buscar_usuario_accesos' %}" class="d-flex justify-content-center mb-4">
-  <input
-    type="text"
-    name="q"
-    class="form-control w-50"
-    placeholder="Buscar por nombres o apellidos"
-    value="{{ query_busqueda_usuario }}"
-    pattern="[A-Za-zÀ-ÿ\s]+"
-    title="Solo se permiten letras y espacios"
-  />
+  <input type="text" name="q" class="form-control w-50"  placeholder="Buscar por nombres o apellidos" value="{{ query_busqueda_usuario }}" pattern="[A-Za-zÀ-ÿ\s]+" title="Solo se permiten letras y espacios" />
   <button type="submit" class="btn btn-primary ms-2">Buscar</button>
 </form>
 
 <!-- Formulario de búsqueda por BP (máximo 7 números) -->
 <form method="GET" action="{% url 'buscar_usuario_accesos' %}" class="d-flex justify-content-center mb-4">
-  <input
-    type="text"
-    name="bp"
-    class="form-control w-50"
-    placeholder="Buscar por BP (máx. 7 números)"
-    value="{{ query_bp }}"
-    maxlength="7"
-    pattern="[0-9]{1,7}"
-    title="Debe contener solo números (máx. 7)"
-  />
+  <input type="text" name="bp" class="form-control w-50" placeholder="Buscar por BP (máx. 7 números)" value="{{ query_bp }}" maxlength="7" pattern="[0-9]{1,7}" title="Debe contener solo números (máx. 7)"/>
   <button type="submit" class="btn btn-success ms-2">Buscar</button>
 </form>
 
 <!-- Formulario de búsqueda por ERP (máximo 6 números) -->
 <form method="GET" action="{% url 'buscar_usuario_accesos' %}" class="d-flex justify-content-center mb-4">
-  <input
-    type="text"
-    name="erp"
-    class="form-control w-50"
-    placeholder="Buscar por ERP (máx. 6 números)"
-    value="{{ query_erp }}"
-    maxlength="6"
-    pattern="[0-9]{1,6}"
-    title="Debe contener solo números (máx. 6)"
-  />
+  <input type="text" name="erp" class="form-control w-50" placeholder="Buscar por ERP (máx. 6 números)" value="{{ query_erp }}" maxlength="6" pattern="[0-9]{1,6}" title="Debe contener solo números (máx. 6)"/>
   <button type="submit" class="btn btn-success ms-2">Buscar</button>
 </form>
 
