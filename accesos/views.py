@@ -85,7 +85,7 @@ def agregar_add_accesos(request):
                     )
                     nuevo_acceso.save()
 
-        return redirect('add_accesos')
+        return redirect('add_accesos_usuarios')
 
     return render(request, 'add_accesos_tmp.html', {
         "usuarios_activos": usuarios_activos,
