@@ -1,0 +1,49 @@
+{% extends "base.html" %} 
+
+{% block title %}Agregar Indicador{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Agregar Indicador para {{ usuario_al_cual_registra.nombre }} {{ usuario_al_cual_registra.apellido }}</h2>
+    
+    <form method="POST" action="">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="tipo_indicador" class="form-label">Tipo de Indicador</label>
+            <select class="form-control" id="tipo_indicador" name="tipo_indicador" required>
+                <option value="">Seleccionar...</option>
+                <option value="Felicitación">Felicitación</option>
+                <option value="Amonestación">Amonestación</option>
+                <option value="Sanción">Sanción</option>
+                <option value="Reposo Médico">Reposo Médico</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="comentario" class="form-label">Comentario</label>
+            <textarea class="form-control" id="comentario" name="comentario" rows="3" required></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="fecha_creacion" class="form-label">Fecha de Creación</label>
+            <input type="date" class="form-control" id="fecha_creacion" name="fecha_creacion" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="fecha_inicio" class="form-label">Fecha de Inicio (Opcional)</label>
+            <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio">
+        </div>
+
+        <div class="mb-3">
+            <label for="fecha_fin" class="form-label">Fecha de Fin (Opcional)</label>
+            <input type="date" class="form-control" id="fecha_fin" name="fecha_fin">
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <a href="{% url 'buscar_usuario_indicadores' %}" class="btn btn-secondary">Regresar</a>
+            <button type="submit" class="btn btn-primary">Guardar Indicador</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
