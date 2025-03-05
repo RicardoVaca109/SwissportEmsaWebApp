@@ -1,0 +1,66 @@
+{% extends "base.html" %} 
+
+{% block title %}Buscar usuario Agregar Indicadores{% endblock %}
+
+{% block content %}
+<h2 class="text-center mb-4">Agregar Indicadores</h2>
+<form method="GET" action="{% url 'buscar_usuario_indicadores' %}" class="d-flex justify-content-center mb-4">
+  <input type="text" name="q" class="form-control w-50" placeholder="Buscar por nombres o apellidos" value="{{ query_busqueda_usuario }}" pattern="[A-Za-zÀ-ÿ\s]+" title="Solo se permiten letras y espacios" />
+  <button type="submit" class="btn btn-primary ms-2">Buscar</button>
+</form>
+
+<!-- Formulario de búsqueda por BP (máximo 7 números) -->
+<form method="GET" action="{% url 'buscar_usuario_indicadores' %}" class="d-flex justify-content-center mb-4">
+  <input type="text" name="bp" class="form-control w-50" placeholder="Buscar por BP (máx. 7 números)" value="{{ query_bp }}" maxlength="7" pattern="[0-9]{1,7}" title="Debe contener solo números (máx. 7)"/>
+  <button type="submit" class="btn btn-success ms-2">Buscar</button>
+</form>
+
+<!-- Formulario de búsqueda por ERP (máximo 6 números) -->
+<form method="GET" action="{% url 'buscar_usuario_indicadores' %}" class="d-flex justify-content-center mb-4">
+  <input type="text" name="erp" class="form-control w-50" placeholder="Buscar por ERP (máx. 6 números)" value="{{ query_erp }}" maxlength="6" pattern="[0-9]{1,6}" title="Debe contener solo números (máx. 6)" />
+  <button type="submit" class="btn btn-success ms-2">Buscar</button>
+</form>
+<div class="table-responsive" style="max-height: 400px; overflow-y: auto;"> 
+  {% if usuarios_activos is not None and usuarios_activos %}
+  <table class="table table-hover">
+    <thead class="table-primary text-center">
+      <tr>
+        <th>Nombres</th>
+        <th>Apellidos</th>
+        <th>Email</th>
+        <th>BP</th>
+        <th>ERP</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for usuario in usuarios_activos %}
+      <tr class="text-center">
+        <td>{{ usuario.nombre }}</td>
+        <td>{{ usuario.apellido }}</td>
+        <td>{{ usuario.email }}</td>
+        <td>{{ usuario.bp }}</td>
+        <td>{{usuario.erp}}</td>
+        <td>
+          <a href="{% url 'add_indicador' usuario.id_usuario  %}" class="btn btn-warning btn-sm">Agregar Indicador</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="6" class="text-center text-muted">No se busca aun</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% elif usuarios_activos is not None %}
+  <p class="text-center">No se encontraron usuarios.</p>
+  {% endif %}
+</div>
+<!-- Botón para regresar -->
+<div class="d-flex justify-content-start mt-3">
+  <a href="{% url 'dashboard_rol_ojt' %}" class="btn btn-primary">
+    <i class="bi bi-arrow-return-left me-2"></i> Regresar
+  </a>
+</div>
+
+{% endblock %}
