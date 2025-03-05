@@ -13,7 +13,7 @@ class CategoriaRole(models.Model):
         "High-Value":"High-Value",
         "Equipajes":"Equipajes",  
         "Control":"Control",
-        "Sin Categoria":"Sin Categoria",  
+        "Sin Rol":"Sin Rol",  
     }
     nombre_categoria = models.CharField(max_length=15, unique=True, choices = NOMBRE_ROL_CATEGORIA_CHOICES)
 
@@ -35,7 +35,7 @@ class Role(models.Model): # Table Roles / Tabla Roles
         "Agente":"Agente",
         "Gerente de Operaciones":"Gerente de Operaciones",
         "OJT":"OJT",
-        "Sin Categoria":"Sin Categoria",    
+        "Sin Categoria Rol":"Sin Categoria Rol",    
     }
     
     nombre_rol = models.CharField(
