@@ -1,13 +1,57 @@
 from django.shortcuts import render, redirect
+from django.db.models import Q
 from django.urls import reverse
-from django.contrib import messages
+from django.http import JsonResponse
 from eventos.models import Evento
-from vuelos.models import Vuelo 
+from vuelos.models import Vuelo
 from usuarios.models import Usuario
+from aeropuertos.models import Aeropuerto
 
 def navegacion_dashboard_eventos(request):
     total_eventos = Evento.objects.all()
     return render(request, 'dashboard_eventos.html', {'total_eventos':total_eventos} )
+
+
+def look_buscar_usuario_eventos(request):
+    query_busqueda_usuario = request.GET.get('q', '').strip()
+    
+    usuarios_activos = Usuario.objects.filter(estatus='Activo')
+    
+    if query_busqueda_usuario:
+        usuarios_activos = usuarios_activos.filter(
+            Q(nombre__icontains=query_busqueda_usuario) |
+            Q(apellido__icontains=query_busqueda_usuario)
+        )
+    
+    # Convertir los resultados a un formato que pueda ser enviado como JSON
+    usuarios_json = [{
+        'id_usuario': usuario.id_usuario,
+        'nombre': usuario.nombre,
+        'apellido': usuario.apellido
+    } for usuario in usuarios_activos]
+    
+    return JsonResponse({'usuarios_activos': usuarios_json})
+
+
+def look_buscar_vuelo_eventos(request):
+    query_busqueda_vuelo = request.GET.get('q', '').strip()
+    
+    vuelos = Vuelo.objects.all()
+    
+    if query_busqueda_vuelo:
+        vuelos = vuelos.filter(codigo_del_vuelo__icontains=query_busqueda_vuelo)
+    
+    # Convertir los resultados a un formato que pueda ser enviado como JSON
+    vuelos_json = [{
+        'id_vuelo': vuelo.id_vuelo,
+        'codigo_del_vuelo': vuelo.codigo_del_vuelo,
+        'origen_vuelo': vuelo.origen_vuelo.estacion_aeropuerto,
+        'destino_vuelo': vuelo.destino_vuelo.estacion_aeropuerto,
+        'fecha_vuelo': vuelo.fecha_vuelo.strftime('%Y-%m-%d')  # Formatear la fecha
+    } for vuelo in vuelos]
+    
+    return JsonResponse({'vuelos': vuelos_json})
+
 
 def agregar_add_eventos(request):
     # Vuelos totales 
