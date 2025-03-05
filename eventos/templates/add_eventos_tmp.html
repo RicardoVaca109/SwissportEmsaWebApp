@@ -9,23 +9,22 @@
         <form method="POST" action="{% url 'add_eventos' %}">
             {% csrf_token %}
             
+            <!-- Campo de Vuelo con Búsqueda Dinámica -->
             <div class="mb-3">
-                <label for='id_vuelo'  class="form-label">Vuelo:</label>
-                <select name='id_vuelo' id='id_vuelo' class="form-select" required>
-                    <option value="" selected disabled>Seleccione un vuelo</option>
-                    {% for vuelo in total_vuelos %}
-                        <option value="{{ vuelo.id_vuelo }}">
-                            {{vuelo.codigo_del_vuelo}} - {{vuelo.origen_vuelo.estacion_aeropuerto}} → {{vuelo.destino_vuelo.estacion_aeropuerto}} |Fecha Vuelo: {{vuelo.fecha_vuelo}}|
-                        </option>
-                    {% endfor %}
-                </select>
+                <label for="id_vuelo" class="form-label">Vuelo:</label>
+                <input type="text" id="buscar_vuelo" class="form-control" placeholder="Buscar vuelo por código...">
+                <div id="resultados_vuelo" class="list-group mt-2"></div>
+                <input type="hidden" name="id_vuelo" id="id_vuelo">
             </div>
 
+
+            <!-- Campo de Fecha del Evento -->
             <div class="mb-3">
                 <label for="fecha_evento" class="form-label">Fecha del Evento</label>
                 <input type="date" name="fecha_evento" id="fecha_evento" class="form-control" required>
             </div>
 
+            <!-- Campos de LIR y PAX -->
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="evento_lir" class="form-label">LIR</label>
@@ -45,6 +44,7 @@
                 </div>
             </div>
 
+            <!-- Campo de Tipo de Evento -->
             <div class="mb-3">
                 <label for="tipo_evento" class="form-label">Tipo de Evento</label>
                 <select name="tipo_evento" id="tipo_evento" class="form-select" required>
@@ -54,34 +54,89 @@
                 </select>
             </div>
 
+            <!-- Campo de Motivo -->
             <div class="mb-3">
                 <label for="motivo" class="form-label">Motivo</label>
                 <textarea name="motivo" id="motivo" class="form-control" rows="3" required></textarea>
             </div>
 
+            <!-- Campo de Plan de Acción -->
             <div class="mb-3">
                 <label for="plan_de_accion" class="form-label">Plan de Acción</label>
                 <textarea name="plan_de_accion" id="plan_de_accion" class="form-control" rows="3"></textarea>
             </div>
 
+            <!-- Campo de Usuario Involucrado con Búsqueda Dinámica -->
             <div class="mb-3">
-                <label for='usuario_involucrado' class="form-label">Usuario Involucrado:</label>
-                <select name='usuario_involucrado' id='usuario_involucrado' class="form-select" required>
-                    <option value="" selected disabled>Seleccione un usuario</option>
-                    {% for usuario in total_usuarios %}
-                        <option value="{{ usuario.id_usuario }}">{{ usuario.nombre }} {{ usuario.apellido }}</option>
-                    {% endfor %}
-                </select>
+                <label for="usuario_involucrado" class="form-label">Usuario Involucrado:</label>
+                <input type="text" id="buscar_usuario" class="form-control" placeholder="Buscar usuario...">
+                <div id="resultados_usuario" class="list-group mt-2"></div>
+                <input type="hidden" name="usuario_involucrado" id="usuario_involucrado">
             </div>
 
+            <!-- Botones de Acción -->
             <div class="d-flex justify-content-between">
                 <a href="{% url 'dashboard_eventos' %}" class="btn btn-secondary">
                     <i class="bi bi-arrow-return-left"></i> Regresar
                 </a>
-                <button type="submit" class="btn btn-success">Guardar Evento
-                </button>
+                <button type="submit" class="btn btn-success">Guardar Evento</button>
             </div>
         </form>
     </div>
 </div>
+
+<script>
+    document.getElementById('buscar_vuelo').addEventListener('input', function() {
+        const query = this.value;
+        if (query.length > 2) {  // Solo buscar si hay más de 2 caracteres
+            fetch(`{% url 'buscar_vuelo_eventos' %}?q=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    const resultados = document.getElementById('resultados_vuelo');
+                    resultados.innerHTML = '';
+                    data.vuelos.forEach(vuelo => {
+                        const item = document.createElement('div');
+                        item.className = 'list-group-item list-group-item-action';
+                        item.textContent = `${vuelo.codigo_del_vuelo} - ${vuelo.origen_vuelo} → ${vuelo.destino_vuelo} | Fecha Vuelo: ${vuelo.fecha_vuelo}`;
+                        item.addEventListener('click', () => {
+                            document.getElementById('id_vuelo').value = vuelo.id_vuelo;
+                            document.getElementById('buscar_vuelo').value = `${vuelo.codigo_del_vuelo} - ${vuelo.origen_vuelo} → ${vuelo.destino_vuelo} | Fecha Vuelo: ${vuelo.fecha_vuelo}`;
+                            resultados.innerHTML = '';
+                        });
+                        resultados.appendChild(item);
+                    });
+                });
+        } else {
+            document.getElementById('resultados_vuelo').innerHTML = '';
+        }
+    });
+    </script>
+
+<!-- Script para la Búsqueda Dinámica -->
+<script>
+document.getElementById('buscar_usuario').addEventListener('input', function() {
+    const query = this.value;
+    if (query.length > 2) {  // Solo buscar si hay más de 2 caracteres
+        fetch(`{% url 'buscar_usuario_eventos' %}?q=${query}`)
+            .then(response => response.json())
+            .then(data => {
+                const resultados = document.getElementById('resultados_usuario');
+                resultados.innerHTML = '';
+                data.usuarios_activos.forEach(usuario => {
+                    const item = document.createElement('div');
+                    item.className = 'list-group-item list-group-item-action';
+                    item.textContent = `${usuario.nombre} ${usuario.apellido}`;
+                    item.addEventListener('click', () => {
+                        document.getElementById('usuario_involucrado').value = usuario.id_usuario;
+                        document.getElementById('buscar_usuario').value = `${usuario.nombre} ${usuario.apellido}`;
+                        resultados.innerHTML = '';
+                    });
+                    resultados.appendChild(item);
+                });
+            });
+    } else {
+        document.getElementById('resultados_usuario').innerHTML = '';
+    }
+});
+</script>
 {% endblock %}
