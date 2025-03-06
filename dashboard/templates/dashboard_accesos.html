@@ -3,8 +3,7 @@
 {% block title %}Accesos{% endblock %}
 
 {% block content %} 
-<h2>Bienvenido/a {{usuario_nombre}}</h2>
-
+<h3>Bienvenido {{usuario_nombre}} | Rol: {{ usuario_rol }} </h3>
 <div class="d-flex flex-column align-items-center gap-3">
     <a href="{% url 'buscar_usuario_accesos' %}" class="btn btn-primary d-flex align-items-center justify-content-center"  style="width: 200px; height: 50px;">
         <i class="bi bi-person-raised-hand me-2"></i>Averiguar Accesos</a>
