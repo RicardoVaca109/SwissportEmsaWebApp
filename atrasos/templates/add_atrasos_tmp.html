@@ -10,15 +10,10 @@
         {% csrf_token %}
     
         <div class="mb-3">
-            <label for="id_vuelo" class="form-label">Vuelo</label>
-            <select class="form-control" id="id_vuelo" name="id_vuelo" required>
-                <option value="" disabled selected>Selecciona un vuelo</option>
-                {% for vuelo in total_vuelos %}
-                    <option value="{{vuelo.id_vuelo }}">
-                       Vuelo: {{vuelo.codigo_del_vuelo}} - Matrícula: {{vuelo.aeronave.matricula_aeronave}}  - Origen: {{vuelo.origen_vuelo.estacion_aeropuerto}} → Destino: {{vuelo.destino_vuelo.estacion_aeropuerto}} |Fecha Vuelo: {{vuelo.fecha_vuelo}}|
-                    </option>
-                {% endfor %}
-            </select>
+            <label for="id_vuelo" class="form-label">Vuelo:</label>
+            <input type="text" id="buscar_vuelo" class="form-control" placeholder="Buscar vuelo por código...">
+            <div id="resultados_vuelo" class="list-group mt-2"></div>
+            <input type="hidden" name="id_vuelo" id="id_vuelo">
         </div>
         <div class="mb-3">
             <label for="fecha_atraso" class="form-label">Fecha del Atraso</label>
@@ -50,4 +45,30 @@
      </form>
     </div>
 </div>
+<script>
+    document.getElementById('buscar_vuelo').addEventListener('input', function() {
+        const query = this.value;
+        if (query.length > 2) {  // Solo buscar si hay más de 2 caracteres
+            fetch(`{% url 'buscar_vuelo_atrasos' %}?q=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    const resultados = document.getElementById('resultados_vuelo');
+                    resultados.innerHTML = '';
+                    data.vuelos.forEach(vuelo => {
+                        const item = document.createElement('div');
+                        item.className = 'list-group-item list-group-item-action';
+                        item.textContent = `${vuelo.codigo_del_vuelo} - ${vuelo.origen_vuelo} → ${vuelo.destino_vuelo} | Fecha Vuelo: ${vuelo.fecha_vuelo}`;
+                        item.addEventListener('click', () => {
+                            document.getElementById('id_vuelo').value = vuelo.id_vuelo;
+                            document.getElementById('buscar_vuelo').value = `${vuelo.codigo_del_vuelo} - ${vuelo.origen_vuelo} → ${vuelo.destino_vuelo} | Fecha Vuelo: ${vuelo.fecha_vuelo}`;
+                            resultados.innerHTML = '';
+                        });
+                        resultados.appendChild(item);
+                    });
+                });
+        } else {
+            document.getElementById('resultados_vuelo').innerHTML = '';
+        }
+    });
+</script>
 {% endblock %}
