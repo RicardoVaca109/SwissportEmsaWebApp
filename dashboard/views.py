@@ -10,8 +10,10 @@ def navegacion_dashboard_general(request):
 
 def navegacion_dashboard_rol_ojt(request):
     usuario_nombre = request.session.get('usuario_nombre', 'Usuario')
-    return render(request, "dashboard_rol_ojt.html", {"usuario_nombre": usuario_nombre})
+    usuario_rol = request.session.get('usuario_rol', 'Sin rol') 
+    return render(request, "dashboard_rol_ojt.html", {"usuario_nombre": usuario_nombre, "usuario_rol": usuario_rol})
 
 def navegacion_dashboard_accesos(request):
     usuario_nombre = request.session.get('usuario_nombre', 'Usuario')
-    return render(request, "dashboard_accesos.html", {"usuario_nombre": usuario_nombre})
+    usuario_rol = request.session.get('usuario_rol', 'Sin rol')  # Obtener el rol del usuario de la sesión
+    return render(request, 'dashboard_accesos.html', {"usuario_nombre": usuario_nombre,"usuario_rol": usuario_rol})
