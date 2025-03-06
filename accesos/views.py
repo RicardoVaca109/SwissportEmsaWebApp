@@ -5,11 +5,6 @@ from accesos.models import Acceso
 from accesos.models import TipoAcceso
 from usuarios.models import Usuario
 
-
-def navegacion_dashboard_accesos(request):
-    usuario_nombre = request.session.get('usuario_nombre', 'Usuario')
-    return render(request, 'dashboard_accesos.html', {"usuario_nombre": usuario_nombre})
-
 def look_buscar_usuario_accesos(request):
     query_busqueda_usuario = request.GET.get('q', '').strip()
     query_bp = request.GET.get('bp', '').strip()
