@@ -14,6 +14,7 @@ def auth_login_view(request):
                     if check_password(contrasenia, usuario.contrasenia):  # Verificar contraseña 
                         request.session['usuario_id'] = usuario.id_usuario  # Guardar en sesión
                         request.session['usuario_nombre'] = usuario.nombre
+                        request.session['usuario_rol'] = usuario.rol.nombre_rol
                         
                         redirecciones_por_rol = [
                             {
