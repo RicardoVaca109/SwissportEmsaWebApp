@@ -20,7 +20,7 @@ def auth_login_view(request):
                             {
                                 "roles" : ["KAM","KAM Nacional","Supervisor"],
                                 "condicion": lambda usuario_validar_rol: usuario_validar_rol.bp is not None,
-                                "url": "dashboard_accesos"                           
+                                "url": "dashboard_rol_kam_supervisor"                           
                             },
                             {
                                 "roles" : ["OJT"],
