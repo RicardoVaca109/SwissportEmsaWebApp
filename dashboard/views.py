@@ -13,7 +13,7 @@ def navegacion_dashboard_rol_ojt(request):
     usuario_rol = request.session.get('usuario_rol', 'Sin rol') 
     return render(request, "dashboard_rol_ojt.html", {"usuario_nombre": usuario_nombre, "usuario_rol": usuario_rol})
 
-def navegacion_dashboard_accesos(request):
+def navegacion_dashboard_rol_kam_supervisor(request):
     usuario_nombre = request.session.get('usuario_nombre', 'Usuario')
     usuario_rol = request.session.get('usuario_rol', 'Sin rol')  # Obtener el rol del usuario de la sesión
-    return render(request, 'dashboard_accesos.html', {"usuario_nombre": usuario_nombre,"usuario_rol": usuario_rol})
+    return render(request, 'dashboard_rol_kam_supervisor.html', {"usuario_nombre": usuario_nombre,"usuario_rol": usuario_rol})
