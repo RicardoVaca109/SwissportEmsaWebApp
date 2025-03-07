@@ -56,6 +56,40 @@
   <p class="text-center">No se encontraron usuarios.</p>
   {% endif %}
 </div>
+
+<!-- Tabla de indicadores registrados por el usuario en sesión -->
+{% if indicadores_usuario %}
+<h3 class="text-center mt-4">Indicadores Registrados por  {{ usuario_en_sesion.nombre }} {{ usuario_en_sesion.apellido }} </h3>
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead class="table-secondary text-center">
+      <tr>
+        <th>Usuario</th>
+        <th>Tipo</th>
+        <th>Comentario</th>
+        <th>Fecha de Creación</th>
+        <th>Fecha de Inicio</th>
+        <th>Fecha de Fin</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for indicador in indicadores_usuario %}
+      <tr class="text-center">
+        <td>{{ indicador.usuario_al_cual_registra.nombre }} {{ indicador.usuario_al_cual_registra.apellido }}</td>
+        <td>{{ indicador.tipo_indicador }}</td>
+        <td>{{ indicador.comentario }}</td>
+        <td>{{ indicador.fecha_creacion }}</td>
+        <td>{{indicador.fecha_inicio}}</td>
+        <td>{{indicador.fecha_fin}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<p class="text-center text-muted">No has registrado indicadores aún.</p>
+{% endif %}
+
 <!-- Botón para regresar -->
 <div class="d-flex justify-content-start mt-3">
   <a href="{% url 'dashboard_rol_ojt' %}" class="btn btn-primary">
