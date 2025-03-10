@@ -3,7 +3,7 @@
 {% block title %}Evaluar {{ usuario_calificado.nombre }}{% endblock %} 
 
 {% block content %}
-<h1 class="text-center">Evaluar a {{ usuario_calificado.nombre }} {{ usuario_calificado.apellido }}</h1>
+<h2 class="text-center">Evaluar a {{ usuario_calificado.nombre }} {{ usuario_calificado.apellido }}</h2>
 
 <form method="POST" action="{% url 'evaluar_usuario' usuario_calificado.id_usuario tipo_evaluacion %}" class="w-50 mx-auto">
     {% csrf_token %}
