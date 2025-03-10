@@ -5,7 +5,15 @@ from usuarios.models import Usuario
 from evaluaciones.models import Evaluacion
 
 def navegacion_dashboard_evaluaciones(request):
-    return render(request, 'dashboard_evaluaciones.html')
+    if 'usuario_id' not in request.session:
+        messages.error(request, "Debes Iniciar Sesión para ver tus evaluaciones")
+        return redirect('login_view')
+    usuario_que_califica_en_sesion = get_object_or_404(Usuario, id_usuario=request.session['usuario_id'])
+    evaluaciones_calificadas_por_usuario = Evaluacion.objects.filter(usuario_que_califica = usuario_que_califica_en_sesion)
+    
+    return render(request, 'evaluaciones_realizadas_tmp.html', {
+        'evaluaciones_calificadas_por_usuario':evaluaciones_calificadas_por_usuario
+    })
 
 def look_buscar_usuario_evaluaciones(request):  # Buscar un empleado antes de evaluarlo
     query_busqueda_usuario = request.GET.get('q','').strip()
