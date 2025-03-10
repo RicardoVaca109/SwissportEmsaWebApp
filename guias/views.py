@@ -6,8 +6,16 @@ from guias.models import Calificacion_Guia
 from usuarios.models import Usuario
 
 def navegacion_dashboard_guias(request):
-    # total_guias = Guia.objects.all()
-    return render(request, 'dashboard_guias.html' )
+    if 'usuario_id' not in request.session:
+        messages.error(request, "Debes Iniciar Sesión para ver tus calificaciones")
+        return redirect('login_view')
+
+    usuario_actual = get_object_or_404(Usuario, id_usuario=request.session['usuario_id'])
+    calificaciones = Calificacion_Guia.objects.filter(usuario_calificador=usuario_actual)
+
+    return render(request, 'dashboard_guias.html', {
+        'calificaciones': calificaciones
+    })
 
 def agregar_add_calificacion_guia(request):
     if 'usuario_id' not in request.session:
@@ -44,5 +52,5 @@ def agregar_add_calificacion_guia(request):
             messages.error(request, "Error en los datos ingresados.")
             return redirect('dashboard_guias')
 
-    return render(request, 'add_guias_tmp.html', {'guias': guias_totales})
+    return render(request, 'add_calificacion_guias.html', {'guias': guias_totales})
         
