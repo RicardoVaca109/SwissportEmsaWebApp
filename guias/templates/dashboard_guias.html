@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Visualizar Guias{% endblock %}
+
+{% block content %}
+<h2 class="text-center my-4" >Mis Guías Calificadas</h2>
+<div class="d-flex justify-content-end">
+    <a href="{% url 'add_calificacion_guia' %}" class="btn btn-success mb-3 d-flex align-items-center justify-content-center"  style="width: 200px; height: 50px;">
+        <i class="bi bi-plus-circle me-2"></i>Agregar Calificación Guias</a>
+</div>
+<div class="container mt-4">
+    {% if calificaciones %}
+        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+            <table class="table table-hover">
+                <thead class="table-primary text-center">
+                    <tr>
+                        <th>Guía</th>
+                        <th>Calificación</th>
+                        <th>Observación</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for calificacion in calificaciones %}
+                        <tr class="text-center">
+                            <td>{{ calificacion.guia.tipo_guia }}</td>
+                            <td>{{ calificacion.calificacion }}</td>
+                            <td>{{ calificacion.observacion }}</td>
+                            <td>{{ calificacion.fecha_calificacion }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="alert alert-warning">No has calificado ninguna guía aún.</p>
+    {% endif %}
+</div>
+<!-- Botón para regresar -->
+<div class="d-flex justify-content-start mt-3">
+    <a href="{% url 'dashboard_rol_kam_supervisor' %}" class="btn btn-primary">
+    <i class="bi bi-arrow-return-left me-2"></i> Regresar
+    </a>
+</div>
+{% endblock %}
