@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Agregar Calificación a Guía{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Agregar Calificación a una Guía</h2>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    
+    <form method="POST" action="">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="id_guia" class="form-label">Selecciona una Guía:</label>
+            <select name="id_guia" id="id_guia" class="form-control" required>
+                <option value="">-- Selecciona una Guía --</option>
+                {% for guia in guias %}
+                    <option value="{{ guia.id_guia }}">{{ guia.tipo_guia }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="mb-3">
+            <label for="calificacion" class="form-label">Calificación (1-5):</label>
+            <select name="calificacion" id="calificacion" class="form-control" required>
+                <option value="">-- Selecciona una Calificación --</option>
+                {% for i in "12345" %}
+                    <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="mb-3">
+            <label for="observacion" class="form-label">Observación:</label>
+            <textarea name="observacion" id="observacion" class="form-control" rows="3" maxlength="100" required></textarea>
+        </div>
+        
+        <div class="mb-3">
+            <label for="fecha_calificacion" class="form-label">Fecha de Calificación:</label>
+            <input type="date" name="fecha_calificacion" id="fecha_calificacion" class="form-control" required>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Guardar Calificación</button>
+        <a href="{% url 'dashboard_guias' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
