@@ -17,7 +17,7 @@ def agregar_add_vuelos(request):
 
     if request.method == 'POST':
         fecha_vuelo = request.POST.get('fecha_vuelo')
-        codigo_del_vuelo = request.POST.get('codigo_del_vuelo')
+        codigo_del_vuelo = request.POST.get('codigo_del_vuelo').upper()
         origen_vuelo = request.POST.get('origen_vuelo')
         destino_vuelo = request.POST.get('destino_vuelo')
         escala_intermedia = request.POST.get('escala_intermedia') or None
@@ -50,7 +50,7 @@ def editar_edit_vuelos(request, id_vuelo):
     
     if request.method == 'POST':
         vuelo.fecha_vuelo = request.POST.get('fecha_vuelo')
-        vuelo.codigo_del_vuelo = request.POST.get('codigo_del_vuelo')
+        vuelo.codigo_del_vuelo = request.POST.get('codigo_del_vuelo').upper()
         vuelo.origen_vuelo = Aeropuerto.objects.get(pk = request.POST.get('origen_vuelo'))
         vuelo.destino_vuelo = Aeropuerto.objects.get(pk = request.POST.get('destino_vuelo'))
         escala_intermedia_id = request.POST.get('escala_intermedia') or None
