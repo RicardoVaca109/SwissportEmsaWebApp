@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.http import JsonResponse
 from atrasos.models import Atraso
@@ -7,6 +7,7 @@ from vuelos.models import Vuelo
 def navegacion_dashboard_atrasos(request):
     total_atrasos = Atraso.objects.all()
     return render(request, 'dashboard_atrasos.html', {'total_atrasos':total_atrasos})
+
 
 def look_buscar_vuelo_atrasos(request):
     query_busqueda_vuelo = request.GET.get('q', '').strip()
@@ -27,13 +28,14 @@ def look_buscar_vuelo_atrasos(request):
     
     return JsonResponse({'vuelos': vuelos_json})
 
+
 def agregar_add_atrasos(request):
     # Vuelos totales 
     total_vuelos = Vuelo.objects.all()
     if request.method == 'POST':
         vuelo = request.POST.get('id_vuelo')
         fecha_atraso = request.POST.get('fecha_atraso')
-        codigo_atraso = request.POST.get('codigo_atraso')
+        codigo_atraso = request.POST.get('codigo_atraso').upper()
         minutos = request.POST.get('minutos')
         motivo_atraso = request.POST.get('motivo_atraso')
         
@@ -50,3 +52,24 @@ def agregar_add_atrasos(request):
     return render(request, 'add_atrasos_tmp.html',{
         'total_vuelos':total_vuelos
     })
+    
+    
+def editar_edit_atraso(request, id_atraso):
+    atraso = get_object_or_404(Atraso, id_atraso = id_atraso)
+    
+    #Obtain all Vuelos / Obtener todos los Vuelos
+    total_vuelos = Vuelo.objects.all()
+    
+    if request.method == 'POST':
+        atraso.vuelo = Vuelo.objects.get(pk = request.POST.get('vuelo'))
+        atraso.fecha_atraso =  request.POST.get('fecha_atraso')
+        atraso.codigo_atraso = request.POST.get('codigo_atraso').upper()
+        atraso.minutos = request.POST.get('minutos')
+        atraso.motivo_atraso = request.POST.get('motivo_atraso')
+        atraso.save()
+        return redirect(reverse('dashboard_atrasos'))
+    return render(request, 'edit_atrasos_tmp.html', {
+        'atraso':atraso,
+        'total_vuelos':total_vuelos,
+    })
+        
