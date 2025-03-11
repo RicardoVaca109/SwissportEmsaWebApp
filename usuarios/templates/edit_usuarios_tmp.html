@@ -21,7 +21,6 @@
         <div class="mb-3">
             <label for="id_categoria_rol" class="form-label">Categoría de Rol</label>
             <select class="form-control" id="id_categoria_rol" name="id_categoria_rol">
-                <option value="" {% if not usuario.categoria_rol %} selected {% endif %}>Sin categoría</option>
                 {% for categoria in total_categorias_role %}
                     <option value="{{ categoria.id_categoria_rol }}" {% if usuario.categoria_rol and usuario.categoria_rol.id_categoria_rol == categoria.id_categoria_rol %} selected {% endif %}>
                         {{ categoria.nombre_categoria }}
@@ -60,12 +59,12 @@
         </div>
         <div class="mb-3">
             <label for="bp" class="form-label">BP</label>
-            <input type="text" class="form-control" id="bp" name="bp" value="{{ usuario.bp }}">
+            <input type="text" class="form-control" id="bp" name="bp" value="{{ usuario.bp }}" maxlength="7" pattern="[0-9]{1,7}" title="Debe contener solo números y máximo 7 dígitos">
         </div>
 
         <div class="mb-3">
             <label for="erp" class="form-label">ERP</label>
-            <input type="text" class="form-control" id="erp" name="erp" value="{{ usuario.erp }}">
+            <input type="text" class="form-control" id="erp" name="erp" value="{{ usuario.erp }}" maxlength="6" pattern="[0-9]{1,6}" title="Debe contener solo números y máximo 6 dígitos">
         </div>
 
         <div class="mb-3">
