@@ -32,7 +32,7 @@ def agregar_add_aeropuertos(request):
 def editar_edit_aeropuerto(request, id_aeropuerto):
     aeropuerto = get_object_or_404(Aeropuerto, id_aeropuerto = id_aeropuerto)
     if request.method == 'POST':
-        aeropuerto.estacion_aeropuerto = request.POST.get('estacion_aeropuerto')
+        aeropuerto.estacion_aeropuerto = request.POST.get('estacion_aeropuerto').upper()
         aeropuerto.nombre = request.POST.get('nombre')
         aeropuerto.ciudad = request.POST.get('ciudad')
         aeropuerto.pais = request.POST.get('pais')
