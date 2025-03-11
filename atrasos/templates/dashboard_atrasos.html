@@ -37,7 +37,11 @@
                     <td> {{atraso.minutos}} </td>
                     <td> {{atraso.codigo_atraso}} </td>
                     <td> {{atraso.motivo_atraso}} </td>
-                    <td>  </td>
+                    <td>
+                        <a href="{% url 'edit_atraso' atraso.id_atraso %}" class="btn btn-warning btn-sm">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                    </td>
                     <td>  </td>
                 </tr>
                 {% empty %}
