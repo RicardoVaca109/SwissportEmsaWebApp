@@ -56,14 +56,14 @@
 
             <!-- Campo de Motivo -->
             <div class="mb-3">
-                <label for="motivo" class="form-label">Motivo</label>
-                <textarea name="motivo" id="motivo" class="form-control" rows="3" required></textarea>
+                <label for="motivo" class="form-label">Motivo (Max 230 caracteres)</label>
+                <textarea name="motivo" id="motivo" class="form-control" rows="3" maxlength="230" required></textarea>
             </div>
 
             <!-- Campo de Plan de Acción -->
             <div class="mb-3">
-                <label for="plan_de_accion" class="form-label">Plan de Acción</label>
-                <textarea name="plan_de_accion" id="plan_de_accion" class="form-control" rows="3"></textarea>
+                <label for="plan_de_accion" class="form-label">Plan de Acción (Max 230 caracteres)</label>
+                <textarea name="plan_de_accion" id="plan_de_accion" class="form-control" rows="3" maxlength="230" required></textarea>
             </div>
 
             <!-- Campo de Usuario Involucrado con Búsqueda Dinámica -->
@@ -97,10 +97,10 @@
                     data.vuelos.forEach(vuelo => {
                         const item = document.createElement('div');
                         item.className = 'list-group-item list-group-item-action';
-                        item.textContent = `${vuelo.codigo_del_vuelo} - ${vuelo.origen_vuelo} → ${vuelo.destino_vuelo} | Fecha Vuelo: ${vuelo.fecha_vuelo}`;
+                        item.textContent = `${vuelo.codigo_del_vuelo} - ${vuelo.origen_vuelo} → ${vuelo.destino_vuelo} | Fecha Vuelo: ${vuelo.fecha_vuelo} | Hora Salida: ${vuelo.hora_salida} | Hora Llegada: ${vuelo.hora_llegada}`;
                         item.addEventListener('click', () => {
                             document.getElementById('id_vuelo').value = vuelo.id_vuelo;
-                            document.getElementById('buscar_vuelo').value = `${vuelo.codigo_del_vuelo} - ${vuelo.origen_vuelo} → ${vuelo.destino_vuelo} | Fecha Vuelo: ${vuelo.fecha_vuelo}`;
+                            document.getElementById('buscar_vuelo').value = `${vuelo.codigo_del_vuelo} - ${vuelo.origen_vuelo} → ${vuelo.destino_vuelo} | Fecha Vuelo: ${vuelo.fecha_vuelo} | Hora Salida: ${vuelo.hora_salida} | Hora Llegada: ${vuelo.hora_llegada}`;
                             resultados.innerHTML = '';
                         });
                         resultados.appendChild(item);
@@ -112,7 +112,7 @@
     });
     </script>
 
-<!-- Script para la Búsqueda Dinámica -->
+<!-- Script para la Búsqueda Dinámica Usuario-->
 <script>
 document.getElementById('buscar_usuario').addEventListener('input', function() {
     const query = this.value;
