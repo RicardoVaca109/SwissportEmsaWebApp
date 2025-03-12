@@ -5,8 +5,9 @@ from aeropuertos.models import Aeropuerto
 from aeronave.models import Aeronave
 
 def navegacion_dashboard_vuelos(request):
-    total_vuelos = Vuelo.objects.all()
+    total_vuelos = Vuelo.objects.all().order_by('id_vuelo')
     return render(request, 'dashboard_vuelos.html', {'total_vuelos':total_vuelos}) 
+
 
 def agregar_add_vuelos(request):
     
@@ -38,6 +39,7 @@ def agregar_add_vuelos(request):
             )
         return redirect(reverse('dashboard_vuelos'))
     return render(request, 'add_vuelos_tmp.html', {'total_aeropuertos':total_aeropuertos, 'total_aeronaves':total_aeronaves})
+
 
 def editar_edit_vuelos(request, id_vuelo):
     
