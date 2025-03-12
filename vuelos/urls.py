@@ -5,5 +5,5 @@ urlpatterns = [
     # Principal Route/ Ruta principal
     path('', navegacion_dashboard_vuelos, name = 'dashboard_vuelos'),
     path('agregar_vuelo/', agregar_add_vuelos, name = 'add_vuelos'),
-    path('vuelos/editar/<int:id_vuelo>', editar_edit_vuelos, name = 'edit_vuelos')
+    path('editar/<int:id_vuelo>/', editar_edit_vuelos, name = 'edit_vuelos')
 ]
