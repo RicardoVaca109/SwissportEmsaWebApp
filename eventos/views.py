@@ -8,7 +8,7 @@ from usuarios.models import Usuario
 from aeropuertos.models import Aeropuerto
 
 def navegacion_dashboard_eventos(request):
-    total_eventos = Evento.objects.all()
+    total_eventos = Evento.objects.all().order_by('id_evento')
     return render(request, 'dashboard_eventos.html', {'total_eventos':total_eventos} )
 
 
