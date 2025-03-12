@@ -6,43 +6,43 @@
 <div class="container mt-4">
     <h2 class="text-center mb-4">Agregar un Nuevo Atraso</h2>
     <div class="card p-4 shadow-sm">
-    <form method="post" action="{% url 'add_atrasos' %}">
-        {% csrf_token %}
-    
-        <div class="mb-3">
-            <label for="id_vuelo" class="form-label">Vuelo:</label>
-            <input type="text" id="buscar_vuelo" class="form-control" placeholder="Buscar vuelo por código...">
-            <div id="resultados_vuelo" class="list-group mt-2"></div>
-            <input type="hidden" name="id_vuelo" id="id_vuelo">
-        </div>
-        <div class="mb-3">
-            <label for="fecha_atraso" class="form-label">Fecha del Atraso</label>
-            <input type="date" class="form-control" id="fecha_atraso" name="fecha_atraso" required>
-        </div>
-    
-        <div class="mb-3">
-            <label for="codigo_atraso" class="form-label">Código del Atraso</label>
-            <input type="text" class="form-control" id="codigo_atraso" name="codigo_atraso" maxlength="10" required>
-        </div>
-    
-        <div class="mb-3">
-            <label for="minutos" class="form-label">Minutos de Atraso</label>
-            <input type="number" class="form-control" id="minutos" name="minutos" min="0" required>
-        </div>
-    
-        <div class="mb-3">
-            <label for="motivo_atraso" class="form-label">Motivo del Atraso</label>
-            <textarea class="form-control" id="motivo_atraso" name="motivo_atraso" rows="3" required></textarea>
-        </div>
-    
-        <!-- Botones de acción -->
-        <div class="d-flex justify-content-between">
-            <a href="{% url 'dashboard_atrasos' %}" class="btn btn-secondary">
-                <i class="bi bi-arrow-return-left me-2"></i> Regresar
-            </a>
-            <button type="submit" class="btn btn-primary">Agregar Atraso</button>
-        </div>
-     </form>
+        <form method="post" action="{% url 'add_atrasos' %}">
+            {% csrf_token %}
+        
+            <div class="mb-3">
+                <label for="id_vuelo" class="form-label">Vuelo:</label>
+                <input type="text" id="buscar_vuelo" class="form-control" placeholder="Buscar vuelo por código...">
+                <div id="resultados_vuelo" class="list-group mt-2"></div>
+                <input type="hidden" name="id_vuelo" id="id_vuelo" required>
+            </div>
+            <div class="mb-3">
+                <label for="fecha_atraso" class="form-label">Fecha del Atraso</label>
+                <input type="date" class="form-control" id="fecha_atraso" name="fecha_atraso" required>
+            </div>
+        
+            <div class="mb-3">
+                <label for="codigo_atraso" class="form-label">Código del Atraso</label>
+                <input type="text" class="form-control" id="codigo_atraso" name="codigo_atraso" maxlength="10" required>
+            </div>
+        
+            <div class="mb-3">
+                <label for="minutos" class="form-label">Minutos de Atraso</label>
+                <input type="number" class="form-control" id="minutos" name="minutos" min="0" required>
+            </div>
+        
+            <div class="mb-3">
+                <label for="motivo_atraso" class="form-label">Motivo del Atraso</label>
+                <textarea class="form-control" id="motivo_atraso" name="motivo_atraso" rows="3" required></textarea>
+            </div>
+        
+            <!-- Botones de acción -->
+            <div class="d-flex justify-content-between">
+                <a href="{% url 'dashboard_atrasos' %}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-return-left me-2"></i> Regresar
+                </a>
+                <button type="submit" class="btn btn-primary">Agregar Atraso</button>
+            </div>
+        </form>
     </div>
 </div>
 <script>
@@ -57,10 +57,10 @@
                     data.vuelos.forEach(vuelo => {
                         const item = document.createElement('div');
                         item.className = 'list-group-item list-group-item-action';
-                        item.textContent = `${vuelo.codigo_del_vuelo} - ${vuelo.origen_vuelo} → ${vuelo.destino_vuelo} | Fecha Vuelo: ${vuelo.fecha_vuelo}`;
+                        item.textContent = `${vuelo.codigo_del_vuelo} - ${vuelo.origen_vuelo} → ${vuelo.destino_vuelo} | Fecha Vuelo: ${vuelo.fecha_vuelo} | Hora Salida: ${vuelo.hora_salida} | Hora Llegada: ${vuelo.hora_llegada}`;
                         item.addEventListener('click', () => {
                             document.getElementById('id_vuelo').value = vuelo.id_vuelo;
-                            document.getElementById('buscar_vuelo').value = `${vuelo.codigo_del_vuelo} - ${vuelo.origen_vuelo} → ${vuelo.destino_vuelo} | Fecha Vuelo: ${vuelo.fecha_vuelo}`;
+                            document.getElementById('buscar_vuelo').value = `${vuelo.codigo_del_vuelo} - ${vuelo.origen_vuelo} → ${vuelo.destino_vuelo} | Fecha Vuelo: ${vuelo.fecha_vuelo} | Hora Salida: ${vuelo.hora_salida} | Hora Llegada: ${vuelo.hora_llegada}`;
                             resultados.innerHTML = '';
                         });
                         resultados.appendChild(item);
