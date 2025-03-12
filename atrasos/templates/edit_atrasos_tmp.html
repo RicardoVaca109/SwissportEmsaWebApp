@@ -29,8 +29,8 @@
             </div>
 
             <div class="mb-3">
-                <label for="motivo_atraso" class="form-label">Motivo del Atraso</label>
-                <textarea class="form-control" id="motivo_atraso" name="motivo_atraso" rows="3" required>{{ atraso.motivo_atraso }}</textarea>
+                <label for="motivo_atraso" class="form-label">Motivo del Atraso (Max 230 caracteres)</label>
+                <textarea class="form-control" id="motivo_atraso" name="motivo_atraso" rows="3" maxlength="230" required>{{ atraso.motivo_atraso }}</textarea>
             </div>
             <button type="submit" class="btn btn-primary">Guardar Cambios</button>
             <a href="{% url 'dashboard_atrasos' %}" class="btn btn-secondary">Cancelar</a>
