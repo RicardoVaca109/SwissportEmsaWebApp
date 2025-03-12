@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Editar un Atraso{% endblock %} 
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Editar un Atraso</h2>
+    <div class="card p-4 shadow-sm">
+        <form method="post" action="{% url 'edit_atraso' atraso.id_atraso %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="id_vuelo" class="form-label">Vuelo:</label>
+                <input type="text" id="buscar_vuelo" class="form-control" value="{{atraso.vuelo.codigo_del_vuelo}}">
+                <div id="resultados_vuelo" class="list-group mt-2"></div>
+                <input type="hidden" name="id_vuelo" id="id_vuelo" value="{{ atraso.vuelo.id_vuelo }}"> 
+            </div>
+            <div class="mb-3">
+                <label for="fecha_atraso" class="form-label">Fecha del Atraso</label>
+                <input type="date" class="form-control" id="fecha_atraso" name="fecha_atraso" value="{{ atraso.fecha_atraso|date:'Y-m-d' }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="codigo_atraso" class="form-label">Código del Atraso</label>
+                <input type="text" class="form-control" id="codigo_atraso" name="codigo_atraso" maxlength="10" value="{{atraso.codigo_atraso}}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="minutos" class="form-label">Minutos de Atraso</label>
+                <input type="number" class="form-control" id="minutos" name="minutos" min="0" value="{{atraso.minutos}}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="motivo_atraso" class="form-label">Motivo del Atraso</label>
+                <textarea class="form-control" id="motivo_atraso" name="motivo_atraso" rows="3" required>{{ atraso.motivo_atraso }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <a href="{% url 'dashboard_atrasos' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+<script>
+    document.getElementById('buscar_vuelo').addEventListener('input', function() {
+        const query = this.value;
+        if (query.length > 2) {  // Solo buscar si hay más de 2 caracteres
+            fetch(`{% url 'buscar_vuelo_atrasos' %}?q=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    const resultados = document.getElementById('resultados_vuelo');
+                    resultados.innerHTML = '';
+                    data.vuelos.forEach(vuelo => {
+                        const item = document.createElement('div');
+                        item.className = 'list-group-item list-group-item-action';
+                        item.textContent = `${vuelo.codigo_del_vuelo} - ${vuelo.origen_vuelo} → ${vuelo.destino_vuelo} | Fecha Vuelo: ${vuelo.fecha_vuelo} | Hora Salida: ${vuelo.hora_salida} | Hora Llegada: ${vuelo.hora_llegada}`;
+                        item.addEventListener('click', () => {
+                            document.getElementById('id_vuelo').value = vuelo.id_vuelo;
+                            document.getElementById('buscar_vuelo').value = `${vuelo.codigo_del_vuelo} - ${vuelo.origen_vuelo} → ${vuelo.destino_vuelo} | Fecha Vuelo: ${vuelo.fecha_vuelo} | Hora Salida: ${vuelo.hora_salida} | Hora Llegada: ${vuelo.hora_llegada}`;
+                            resultados.innerHTML = '';
+                        });
+                        resultados.appendChild(item);
+                    });
+                });
+        } else {
+            document.getElementById('resultados_vuelo').innerHTML = '';
+        }
+    });
+</script>
+{% endblock %}
