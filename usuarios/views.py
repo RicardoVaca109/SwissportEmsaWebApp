@@ -7,7 +7,7 @@ from usuarios.models import Role
 from usuarios.models import CategoriaRole 
 
 def navegacion_dashboard_usuarios(request):
-    total_usuarios = Usuario.objects.all() # Usuario.objects.select_related('id_aeropuerto', 'id_rol').all()
+    total_usuarios = Usuario.objects.all().order_by('id_usuario') # Usuario.objects.select_related('id_aeropuerto', 'id_rol').all()
     return render(request, 'dashboard_usuarios.html', {'total_usuarios':total_usuarios})
 
 def agregar_add_usuarios(request):
