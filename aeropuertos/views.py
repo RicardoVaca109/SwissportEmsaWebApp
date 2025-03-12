@@ -3,7 +3,7 @@ from django.urls import reverse
 from aeropuertos.models import Aeropuerto
 
 def navegacion_dashboard_aeropuertos(request):
-    total_aeropuertos = Aeropuerto.objects.all()
+    total_aeropuertos = Aeropuerto.objects.all().order_by('id_aeropuerto')
     return render(request, 'dashboard_aeropuertos.html', {'total_aeropuertos':total_aeropuertos})
 
 def agregar_add_aeropuertos(request):
