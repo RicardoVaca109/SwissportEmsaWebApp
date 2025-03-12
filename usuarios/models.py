@@ -19,8 +19,8 @@ class CategoriaRole(models.Model):
 
     def __str__(self):
         return self.nombre_categoria
- 
-    
+
+
 class Role(models.Model): # Table Roles / Tabla Roles
     id_rol = models.AutoField(primary_key = True) # Primary id /Id Primario
     
@@ -48,8 +48,7 @@ class Role(models.Model): # Table Roles / Tabla Roles
             return f"{self.nombre_rol}"
 
 
- 
-    
+
 class Usuario(models.Model): # Table Usuarios / Tabla Usuario
     id_usuario = models.AutoField(primary_key=True)
     aeropuerto = models.ForeignKey(Aeropuerto, on_delete=models.CASCADE)
