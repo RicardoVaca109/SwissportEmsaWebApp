@@ -5,7 +5,6 @@ from django.http import JsonResponse
 from eventos.models import Evento
 from vuelos.models import Vuelo
 from usuarios.models import Usuario
-from aeropuertos.models import Aeropuerto
 
 def navegacion_dashboard_eventos(request):
     total_eventos = Evento.objects.all().order_by('id_evento')
@@ -64,7 +63,7 @@ def agregar_add_eventos(request):
     if request.method == 'POST':
         vuelo = request.POST.get('id_vuelo')
         fecha_evento = request.POST.get('fecha_evento')
-        evento_lir = request.POST.get('evento_lir') 
+        evento_rampa = request.POST.get('evento_rampa') 
         evento_pax = request.POST.get('evento_pax') 
         motivo = request.POST.get('motivo')
         tipo_evento = request.POST.get('tipo_evento')
@@ -72,12 +71,12 @@ def agregar_add_eventos(request):
         usuario_involucrado = request.POST.get('usuario_involucrado')
     
 
-        if vuelo and fecha_evento and evento_lir and evento_pax and motivo and tipo_evento and plan_de_accion and usuario_involucrado:
+        if vuelo and fecha_evento and evento_rampa and evento_pax and motivo and tipo_evento and plan_de_accion and usuario_involucrado:
             Evento.objects.create(
                 vuelo  = Vuelo.objects.get(pk = vuelo),
                 usuario_involucrado = Usuario.objects.get(pk = usuario_involucrado),
                 fecha_evento = fecha_evento,
-                evento_lir = evento_lir,
+                evento_rampa = evento_rampa,
                 evento_pax = evento_pax,
                 motivo = motivo,
                 tipo_evento = tipo_evento,
@@ -99,7 +98,7 @@ def editar_edit_evento(request, id_evento):
         evento.vuelo = Vuelo.objects.get(pk = request.POST.get('id_vuelo'))
         evento.usuario_involucrado = Usuario.objects.get(pk = request.POST.get('usuario_involucrado'))
         evento.fecha_evento = request.POST.get('fecha_evento')
-        evento.evento_lir = request.POST.get('evento_lir') 
+        evento.evento_rampa = request.POST.get('evento_rampa') 
         evento.evento_pax = request.POST.get('evento_pax')
         evento.motivo = request.POST.get('motivo') 
         evento.tipo_evento = request.POST.get('tipo_evento')
@@ -111,7 +110,15 @@ def editar_edit_evento(request, id_evento):
         'total_vuelos':total_vuelos,
         'total_usuarios':total_usuarios,       
     })
-        
-        
     
+def eliminar_delete_evento(request, id_evento):
+    #Obtener todos los eventos
+    total_eventos = Evento.objects.all().order_by('id_evento')
     
+    evento_a_eliminar = get_object_or_404(Evento, id_evento = id_evento)
+    if request.method == 'POST':
+        evento_a_eliminar.delete()
+        return redirect(reverse('dashboard_eventos'))
+    return render(request, 'dashboard_eventos.html',{
+        'total_eventos':total_eventos,
+    })
