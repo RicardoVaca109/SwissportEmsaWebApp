@@ -21,14 +21,14 @@
                 <label for="fecha_evento" class="form-label">Fecha del Evento</label>
                 <input type="date" name="fecha_evento" id="fecha_evento" class="form-control" value="{{ evento.fecha_evento|date:'Y-m-d' }}" required>
             </div>
-            <!-- Campos de LIR y PAX -->
+            <!-- Campos de Rampa y PAX -->
             <div class="row">
                 <div class="col-md-6 mb-3">
-                    <label for="evento_lir" class="form-label">LIR</label>
-                    <select name="evento_lir" id="evento_lir" class="form-select"  required>
+                    <label for="evento_rampa" class="form-label">Rampa</label>
+                    <select name="evento_rampa" id="evento_rampa" class="form-select"  required>
                         <option value="" disabled>Seleccione una opción</option>
-                        <option value="SI" {% if evento.evento_lir == "SI" %}selected{% endif %}>Sí</option>
-                        <option value="NO" {% if evento.evento_lir == "NO" %}selected{% endif %}>No</option>
+                        <option value="SI" {% if evento.evento_rampa == "SI" %}selected{% endif %}>Sí</option>
+                        <option value="NO" {% if evento.evento_rampa == "NO" %}selected{% endif %}>No</option>
                     </select>
                 </div>
                 <div class="col-md-6 mb-3">

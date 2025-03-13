@@ -18,7 +18,7 @@
                     <th>Código del Vuelo</th>
                     <th>Origen</th>
                     <th>Destino</th>
-                    <th>LIR</th>
+                    <th>Rampa</th>
                     <th>PAX</th>
                     <th>Tipo de Evento</th>
                     <th>Motivo</th>
@@ -36,7 +36,7 @@
                     <td> {{evento.vuelo.codigo_del_vuelo}} </td>
                     <td> {{evento.vuelo.origen_vuelo.estacion_aeropuerto}} </td>
                     <td> {{evento.vuelo.destino_vuelo.estacion_aeropuerto}} </td>
-                    <td> {{evento.evento_lir}} </td>
+                    <td> {{evento.evento_rampa}} </td>
                     <td> {{evento.evento_pax}} </td>
                     <td> {{evento.tipo_evento}} </td>
                     <td> 
@@ -52,7 +52,12 @@
                         </a>
                     </td>
                     <td>
-                        
+                        <form method="post" action="{% url 'delete_evento' evento.id_evento %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este aeropuerto?');">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                    </form>
                     </td>
                 </tr>
                 {% empty %}
