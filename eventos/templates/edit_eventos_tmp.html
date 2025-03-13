@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}Editar un Evento{% endblock %} 
+
+{% block content %}
+<div class="container mt-4">
+    <h3 class="text-center mb-4">Editar un Nuevo Evento</h3>
+    <div class="card p-4 shadow-sm">
+        <form method="post" action="{% url 'edit_evento' evento.id_evento %}">
+            {% csrf_token %}
+            <!-- Campo de Vuelo con Búsqueda Dinámica -->
+            <div class="mb-3">
+                <label for="id_vuelo" class="form-label">Vuelo:</label>
+                <input type="text" id="buscar_vuelo" class="form-control" value="{{evento.vuelo.codigo_del_vuelo}}">
+                <div id="resultados_vuelo" class="list-group mt-2"></div>
+                <input type="hidden" name="id_vuelo" id="id_vuelo" value="{{evento.vuelo.id_vuelo}}">
+            </div>
+
+            <!-- Campo de Fecha del Evento -->
+            <div class="mb-3">
+                <label for="fecha_evento" class="form-label">Fecha del Evento</label>
+                <input type="date" name="fecha_evento" id="fecha_evento" class="form-control" value="{{ evento.fecha_evento|date:'Y-m-d' }}" required>
+            </div>
+            <!-- Campos de LIR y PAX -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="evento_lir" class="form-label">LIR</label>
+                    <select name="evento_lir" id="evento_lir" class="form-select"  required>
+                        <option value="" disabled>Seleccione una opción</option>
+                        <option value="SI" {% if evento.evento_lir == "SI" %}selected{% endif %}>Sí</option>
+                        <option value="NO" {% if evento.evento_lir == "NO" %}selected{% endif %}>No</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="evento_pax" class="form-label">PAX</label>
+                    <select name="evento_pax" id="evento_pax" class="form-select" required>
+                        <option value="" disabled>Seleccione una opción</option>
+                        <option value="SI" {% if evento.evento_pax == "SI" %}selected{% endif %}>Sí</option>
+                        <option value="NO" {% if evento.evento_pax == "NO" %}selected{% endif %}>No</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Campo de Tipo de Evento -->
+            <div class="mb-3">
+                <label for="tipo_evento" class="form-label">Tipo de Evento</label>
+                <select name="tipo_evento" id="tipo_evento" class="form-select" required>
+                    <option value="" disabled>Seleccione un tipo de evento</option>
+                    <option value="SPI" {% if evento.tipo_evento == "SPI" %}selected{% endif %}>SPI</option>
+                    <option value="NO SPI" {% if evento.tipo_evento == "NO SPI" %}selected{% endif %}>NO SPI</option>
+                </select>
+            </div>
+
+            <!-- Campo de Motivo -->
+            <div class="mb-3">
+                <label for="motivo" class="form-label">Motivo (Max 230 caracteres)</label>
+                <textarea name="motivo" id="motivo" class="form-control" rows="3" maxlength="230" required> {{ evento.motivo }} </textarea>
+            </div>
+
+            <!-- Campo de Plan de Acción -->
+            <div class="mb-3">
+                <label for="plan_de_accion" class="form-label">Plan de Acción (Max 230 caracteres)</label>
+                <textarea name="plan_de_accion" id="plan_de_accion" class="form-control" rows="3" maxlength="230" required> {{ evento.plan_de_accion }} </textarea>
+            </div>
+
+            <!-- Campo de Usuario Involucrado con Búsqueda Dinámica -->
+            <div class="mb-3">
+                <label for="usuario_involucrado" class="form-label">Usuario Involucrado:</label>
+                <input type="text" id="buscar_usuario" class="form-control" value="{{evento.usuario_involucrado.nombre}} {{evento.usuario_involucrado.apellido}}">
+                <div id="resultados_usuario" class="list-group mt-2"></div>
+                <input type="hidden" name="usuario_involucrado" id="usuario_involucrado" value="{{evento.usuario_involucrado.id_usuario}}">
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <a href="{% url 'dashboard_eventos' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('buscar_vuelo').addEventListener('input', function() {
+        const query = this.value;
+        if (query.length > 2) {  // Solo buscar si hay más de 2 caracteres
+            fetch(`{% url 'buscar_vuelo_eventos' %}?q=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    const resultados = document.getElementById('resultados_vuelo');
+                    resultados.innerHTML = '';
+                    data.vuelos.forEach(vuelo => {
+                        const item = document.createElement('div');
+                        item.className = 'list-group-item list-group-item-action';
+                        item.textContent = `${vuelo.codigo_del_vuelo} - ${vuelo.origen_vuelo} → ${vuelo.destino_vuelo} | Fecha Vuelo: ${vuelo.fecha_vuelo} | Hora Salida: ${vuelo.hora_salida} | Hora Llegada: ${vuelo.hora_llegada}`;
+                        item.addEventListener('click', () => {
+                            document.getElementById('id_vuelo').value = vuelo.id_vuelo;
+                            document.getElementById('buscar_vuelo').value = `${vuelo.codigo_del_vuelo} - ${vuelo.origen_vuelo} → ${vuelo.destino_vuelo} | Fecha Vuelo: ${vuelo.fecha_vuelo} | Hora Salida: ${vuelo.hora_salida} | Hora Llegada: ${vuelo.hora_llegada}`;
+                            resultados.innerHTML = '';
+                        });
+                        resultados.appendChild(item);
+                    });
+                });
+        } else {
+            document.getElementById('resultados_vuelo').innerHTML = '';
+        }
+    });
+    </script>
+
+<!-- Script para la Búsqueda Dinámica Usuario-->
+<script>
+document.getElementById('buscar_usuario').addEventListener('input', function() {
+    const query = this.value;
+    if (query.length > 2) {  // Solo buscar si hay más de 2 caracteres
+        fetch(`{% url 'buscar_usuario_eventos' %}?q=${query}`)
+            .then(response => response.json())
+            .then(data => {
+                const resultados = document.getElementById('resultados_usuario');
+                resultados.innerHTML = '';
+                data.usuarios_activos.forEach(usuario => {
+                    const item = document.createElement('div');
+                    item.className = 'list-group-item list-group-item-action';
+                    item.textContent = `${usuario.nombre} ${usuario.apellido}`;
+                    item.addEventListener('click', () => {
+                        document.getElementById('usuario_involucrado').value = usuario.id_usuario;
+                        document.getElementById('buscar_usuario').value = `${usuario.nombre} ${usuario.apellido}`;
+                        resultados.innerHTML = '';
+                    });
+                    resultados.appendChild(item);
+                });
+            });
+    } else {
+        document.getElementById('resultados_usuario').innerHTML = '';
+    }
+});
+</script>
+{% endblock %}
