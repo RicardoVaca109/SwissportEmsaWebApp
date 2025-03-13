@@ -81,6 +81,7 @@
                   <input type="text" class="form-control" value="{{ acceso_existente.tiene_acceso }}" readonly>
                 {% else %}
                   <select name="acceso_{{ acceso.id_tipo_acceso }}" class="form-control">
+                    <option value="" selected disabled>Seleccione una opción</option>
                     <option value="SI">SI</option>
                     <option value="NO">NO</option>
                     <option value="SOLICITADO">SOLICITADO</option>
