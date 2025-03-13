@@ -24,7 +24,8 @@
                     <th>Motivo</th>
                     <th>Plan de Accion</th>
                     <th>Involucrado</th>
-                    <th>acciones</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,10 +39,21 @@
                     <td> {{evento.evento_lir}} </td>
                     <td> {{evento.evento_pax}} </td>
                     <td> {{evento.tipo_evento}} </td>
-                    <td> {{evento.motivo}} </td>
+                    <td> 
+                        <span class="d-inline-block text-truncate" style="max-width: 140px;" title="{{ evento.motivo }}">
+                            {{ evento.motivo|slice:":50" }}{% if evento.motivo|length > 50 %}...{% endif %}
+                        </span>
+                    </td>
                     <td> {{evento.plan_de_accion}} </td>
                     <td> {{evento.usuario_involucrado.nombre}} {{evento.usuario_involucrado.apellido}} </td>
-                    <td>  </td>
+                    <td> 
+                        <a href="{% url 'edit_evento' evento.id_evento %}" class="btn btn-warning btn-sm">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                    </td>
+                    <td>
+                        
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>
