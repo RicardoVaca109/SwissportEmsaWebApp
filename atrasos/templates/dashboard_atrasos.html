@@ -36,7 +36,11 @@
                     <td> {{atraso.vuelo.aeronave.matricula_aeronave}} </td>
                     <td> {{atraso.minutos}} </td>
                     <td> {{atraso.codigo_atraso}} </td>
-                    <td> {{atraso.motivo_atraso}} </td>
+                    <td> 
+                        <span class="d-inline-block text-truncate" style="max-width: 140px;" title="{{atraso.motivo_atraso}} ">
+                            {{ atraso.motivo_atraso|slice:":50" }}{% if atraso.motivo_atraso|length > 50 %}...{% endif %}
+                        </span>
+                    </td>
                     <td>
                         <a href="{% url 'edit_atraso' atraso.id_atraso %}" class="btn btn-warning btn-sm">
                             <i class="bi bi-pencil-square"></i>
