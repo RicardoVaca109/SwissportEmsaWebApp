@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.db.models import Q
 from django.db import transaction
 from accesos.models import Acceso
@@ -6,6 +7,9 @@ from accesos.models import TipoAcceso
 from usuarios.models import Usuario
 
 def look_buscar_usuario_accesos(request):
+    if 'usuario_id' not in request.session:
+        messages.error(request, "Debes Iniciar Sesión para Buscar accesos")
+        return redirect('login_view')
     query_busqueda_usuario = request.GET.get('q', '').strip()
     query_bp = request.GET.get('bp', '').strip()
     query_erp = request.GET.get('erp', '').strip()
@@ -42,6 +46,9 @@ def look_buscar_usuario_accesos(request):
     })
 
 def agregar_add_accesos(request):
+    if 'usuario_id' not in request.session:
+        messages.error(request, "Debes Iniciar Sesión para Buscar accesos")
+        return redirect('login_view')
     query_busqueda_usuario = request.GET.get('q', '').strip()
     query_bp = request.GET.get('bp', '').strip()
     query_erp = request.GET.get('erp', '').strip()
