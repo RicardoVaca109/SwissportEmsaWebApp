@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.urls import reverse
 from django.http import JsonResponse
 from atrasos.models import Atraso
 from vuelos.models import Vuelo
+from usuarios.models import Usuario
 
 def navegacion_dashboard_atrasos(request):
-    total_atrasos = Atraso.objects.all()
+    total_atrasos = Atraso.objects.all().order_by('id_atraso')
     return render(request, 'dashboard_atrasos.html', {'total_atrasos':total_atrasos})
 
 
@@ -23,7 +25,9 @@ def look_buscar_vuelo_atrasos(request):
         'codigo_del_vuelo': vuelo.codigo_del_vuelo,
         'origen_vuelo': vuelo.origen_vuelo.estacion_aeropuerto,
         'destino_vuelo': vuelo.destino_vuelo.estacion_aeropuerto,
-        'fecha_vuelo': vuelo.fecha_vuelo.strftime('%Y-%m-%d')  # Formatear la fecha
+        'fecha_vuelo': vuelo.fecha_vuelo.strftime('%Y-%m-%d'),  # Formatear la fecha
+        'hora_salida': vuelo.hora_salida.strftime('%H:%M:%S'),
+        'hora_llegada': vuelo.hora_llegada.strftime('%H:%M:%S'),
     } for vuelo in vuelos]
     
     return JsonResponse({'vuelos': vuelos_json})
@@ -32,6 +36,7 @@ def look_buscar_vuelo_atrasos(request):
 def agregar_add_atrasos(request):
     # Vuelos totales 
     total_vuelos = Vuelo.objects.all()
+    
     if request.method == 'POST':
         vuelo = request.POST.get('id_vuelo')
         fecha_atraso = request.POST.get('fecha_atraso')
@@ -61,7 +66,7 @@ def editar_edit_atraso(request, id_atraso):
     total_vuelos = Vuelo.objects.all()
     
     if request.method == 'POST':
-        atraso.vuelo = Vuelo.objects.get(pk = request.POST.get('vuelo'))
+        atraso.vuelo = Vuelo.objects.get(pk = request.POST.get('id_vuelo'))
         atraso.fecha_atraso =  request.POST.get('fecha_atraso')
         atraso.codigo_atraso = request.POST.get('codigo_atraso').upper()
         atraso.minutos = request.POST.get('minutos')
