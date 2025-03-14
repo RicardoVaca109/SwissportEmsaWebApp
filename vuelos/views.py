@@ -6,7 +6,27 @@ from aeronave.models import Aeronave
 
 def navegacion_dashboard_vuelos(request):
     total_vuelos = Vuelo.objects.all().order_by('id_vuelo')
-    return render(request, 'dashboard_vuelos.html', {'total_vuelos':total_vuelos}) 
+    # Obtener lista de aeropuertos para el filtro
+    total_aeropuertos = Aeropuerto.objects.all()
+    
+    # Obtener parámetros de búsqueda
+    fecha_inicio = request.GET.get('fecha_inicio', '')
+    fecha_fin = request.GET.get('fecha_fin', '')
+    origen_filtro = request.GET.get('origen_filtro')
+  
+    if fecha_inicio and fecha_fin:
+        total_vuelos = total_vuelos.filter(fecha_vuelo__range=[fecha_inicio, fecha_fin])
+        
+    if origen_filtro:
+        total_vuelos = total_vuelos.filter(origen_vuelo__id_aeropuerto=origen_filtro)
+    
+    return render(request, 'dashboard_vuelos.html', {
+        'total_vuelos': total_vuelos,
+        'total_aeropuertos': total_aeropuertos,
+        'fecha_inicio':fecha_inicio,
+        'fecha_fin':fecha_fin,
+        'origen_filtro': origen_filtro
+    }) 
 
 
 def agregar_add_vuelos(request):
