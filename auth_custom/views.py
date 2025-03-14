@@ -16,6 +16,8 @@ def auth_login_view(request):
                         request.session['usuario_nombre'] = usuario.nombre
                         request.session['usuario_rol'] = usuario.rol.nombre_rol
                         
+                        request.session.set_expiry(0)
+                        
                         redirecciones_por_rol = [
                             {
                                 "roles" : ["KAM","KAM Nacional","Supervisor"],
@@ -36,12 +38,12 @@ def auth_login_view(request):
                             
                         return redirect("dashboard_general")
                     else:
-                        messages.error(request, "Contraseña incorrecta")
+                        messages.error(request, "Correo o Contraseña incorrecto o Usuario no encontrado o Usuario Inactivo")
             except Usuario.DoesNotExist:
-                    messages.error(request, "Usuario no encontrado o Usuario Inactivo")
+                    messages.error(request, "Correo o Contraseña incorrecto o Usuario no encontrado o Usuario Inactivo")
 
     return render(request, "initial_login.html")
 
 def auth_logout_view(request):
-    logout(request)  # Eliminar sesión
+    request.session.flush()  # Eliminar sesión
     return redirect("login_view")  # Redirigir al login
