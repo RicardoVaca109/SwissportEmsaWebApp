@@ -93,7 +93,4 @@ def editar_edit_usuarios(request, id_usuario):
         'total_aeropuertos': total_aeropuertos,
         'total_categorias_role': total_categorias_role
     })
-        
-    
-    
-    
+   
