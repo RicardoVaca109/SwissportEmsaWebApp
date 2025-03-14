@@ -7,7 +7,7 @@ from usuarios.models import Usuario
 
 def navegacion_dashboard_guias(request):
     if 'usuario_id' not in request.session:
-        messages.error(request, "Debes Iniciar Sesión para ver tus calificaciones")
+        messages.error(request, "Debes Iniciar Sesión para ver las guias")
         return redirect('login_view')
 
     usuario_actual = get_object_or_404(Usuario, id_usuario=request.session['usuario_id'])
@@ -19,7 +19,7 @@ def navegacion_dashboard_guias(request):
 
 def agregar_add_calificacion_guia(request):
     if 'usuario_id' not in request.session:
-        messages.error(request, "Debes Iniciar Sesión para Evaluar")
+        messages.error(request, "Debes Iniciar Sesión para resgitrar una calificacion a una Guia")
         return redirect('login_view')
 
     usuario_calificador = get_object_or_404(Usuario, id_usuario=request.session['usuario_id'])
