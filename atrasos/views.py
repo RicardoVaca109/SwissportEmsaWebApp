@@ -77,4 +77,17 @@ def editar_edit_atraso(request, id_atraso):
         'atraso':atraso,
         'total_vuelos':total_vuelos,
     })
-        
+
+
+def eliminar_delete_atraso(request, id_atraso):
+    # Obtener todos los atrasos
+    total_atrasos = Atraso.objects.all().order_by('id_atraso')
+    
+    atraso_a_eliminar = get_object_or_404(Atraso, id_atraso = id_atraso)
+    if request.method == 'POST':
+        atraso_a_eliminar.delete()
+        return redirect(reverse('dashboard_atrasos'))
+    return render(request, 'dashboard_atrasos.html', {
+        'total_atrasos':total_atrasos
+    })
+      
