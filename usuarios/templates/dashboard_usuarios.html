@@ -21,10 +21,11 @@
                     <th>Fecha de Ingreso</th>
                     <th>Estación</th>
                     <th>BP</th>
-                    <th>ERP</th>
+                    <th>EPR</th>
                     <th>Estatus</th>
                     <th>Ubicación</th>
                     <th>Editar</th>
+                    <th>Ver Detalle</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,12 +40,17 @@
                         <td> {{usuario.fecha_ingreso}} </td>
                         <td> {{ usuario.aeropuerto.estacion_aeropuerto }} </td>
                         <td> {{ usuario.bp }} </td>
-                        <td> {{ usuario.erp }} </td>
+                        <td> {{ usuario.epr }} </td>
                         <td> {{ usuario.estatus }} </td>
                         <td> {{ usuario.ubicacion }} </td>
                         <td>
                             <a href="{% url 'edit_usuarios' usuario.id_usuario %}" class="btn btn-warning btn-sm">
                                 <i class="bi bi-pencil-square"></i>
+                            </a>    
+                        </td>
+                        <td>
+                            <a href="{% url 'detail_usuarios' usuario.id_usuario %}" class="btn btn-info btn-sm">
+                                <i class="bi bi-eye"></i>
                             </a>    
                         </td>
                     </tr>
