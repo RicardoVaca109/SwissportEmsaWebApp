@@ -58,8 +58,8 @@
                    title="Debe contener solo números y máximo 7 dígitos">
         </div>
         <div class="mb-3">
-            <label for="erp" class="form-label">ERP (Opcional)</label>
-            <input type="text" class="form-control" id="erp" name="erp" maxlength="6" pattern="[0-9]{1,6}" 
+            <label for="epr" class="form-label">EPR (Opcional)</label>
+            <input type="text" class="form-control" id="epr" name="epr" maxlength="6" pattern="[0-9]{1,6}" 
                    title="Debe contener solo números y máximo 6 dígitos">
         </div>
         <div class="mb-3">
@@ -72,6 +72,7 @@
         <div class="mb-3">
             <label for="ubicacion" class="form-label">Empleado Sobre o Bajo Ala</label>
             <select  class="form-control" id="ubicacion" name="ubicacion" required>
+                <option value="" selected disabled>Seleccione una opción</option>
                 <option value="Bajo Ala">Bajo Ala</option>
                 <option value="Sobre Ala">Sobre Ala</option>
             </select>

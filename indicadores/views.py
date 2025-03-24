@@ -23,11 +23,11 @@ def look_buscar_usuario_indicadores(request):  # Buscar un empleado antes de agr
     indicadores_usuario = Indicador.objects.filter(usuario_que_registra=usuario_en_sesion)
     query_busqueda_usuario = request.GET.get('q','').strip()
     query_bp = request.GET.get('bp', '').strip()
-    query_erp = request.GET.get('erp', '').strip()
+    query_epr = request.GET.get('epr', '').strip()
     
     usuarios_activos = None   # Inicialmente, no se carga ningún empleado
     
-    if query_busqueda_usuario or (query_bp and query_bp.isdigit()) or (query_erp and query_erp.isdigit()):
+    if query_busqueda_usuario or (query_bp and query_bp.isdigit()) or (query_epr and query_epr.isdigit()):
         usuarios_activos = Usuario.objects.filter(estatus='Activo')
     
         if query_busqueda_usuario:
@@ -39,8 +39,8 @@ def look_buscar_usuario_indicadores(request):  # Buscar un empleado antes de agr
         if query_bp and query_bp.isdigit():
             usuarios_activos = usuarios_activos.filter(bp__icontains=query_bp)
             
-        if query_erp and query_erp.isdigit():
-            usuarios_activos = usuarios_activos.filter(erp__icontains=query_erp)
+        if query_epr and query_epr.isdigit():
+            usuarios_activos = usuarios_activos.filter(epr__icontains=query_epr)
            
     return render(request, 'buscar_usuario_agregar_indicadores.html', {
         "usuarios_activos": usuarios_activos,
@@ -48,7 +48,7 @@ def look_buscar_usuario_indicadores(request):  # Buscar un empleado antes de agr
         "usuario_en_sesion":usuario_en_sesion, 
         "query_busqueda_usuario": query_busqueda_usuario, 
         "query_bp": query_bp, 
-        "query_erp": query_erp
+        "query_epr": query_epr
         })
 
 

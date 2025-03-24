@@ -18,19 +18,19 @@
 </form>
 
 <form method="GET" action="{% url 'add_accesos_usuarios' %}" class="d-flex justify-content-center mb-3">
-  <input type="text" name="erp" class="form-control w-50" placeholder="Buscar por ERP" value="{{ query_erp }}">
+  <input type="text" name="epr" class="form-control w-50" placeholder="Buscar por epr" value="{{ query_epr }}">
   <button type="submit" class="btn btn-success ms-2">Buscar</button>
 </form>
 
 <!-- Tabla de usuarios -->
-{% if query_busqueda_usuario or query_bp or query_erp %}
+{% if query_busqueda_usuario or query_bp or query_epr %}
 {% if usuarios_activos %}
 <table class="table table-bordered mt-4">
   <thead class="table-primary text-center">
     <tr>
       <th>Nombre</th>
       <th>BP</th>
-      <th>ERP</th>
+      <th>EPR</th>
       <th>Acción</th>
     </tr>
   </thead>
@@ -39,7 +39,7 @@
     <tr>
       <td>{{ usuario.nombre }} {{ usuario.apellido }}</td>
       <td>{{ usuario.bp }}</td>
-      <td>{{ usuario.erp }}</td>
+      <td>{{ usuario.epr }}</td>
       <td>
         <button class="btn btn-primary btn-sm" onclick="seleccionarUsuario('{{ usuario.id_usuario }}', '{{ usuario.nombre }} {{ usuario.apellido }}')">
           Seleccionar
@@ -99,7 +99,7 @@
 
 <!-- Botón para regresar -->
 <div class="d-flex justify-content-start mt-3">
-  <a href="{% url 'dashboard_rol_kam_supervisor' %}" class="btn btn-primary">
+  <a href="{% url 'dashboard_cargo_kam_supervisor' %}" class="btn btn-primary">
     <i class="bi bi-arrow-return-left me-2"></i> Regresar
   </a>
 </div>

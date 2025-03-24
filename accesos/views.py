@@ -12,12 +12,12 @@ def look_buscar_usuario_accesos(request):
         return redirect('login_view')
     query_busqueda_usuario = request.GET.get('q', '').strip()
     query_bp = request.GET.get('bp', '').strip()
-    query_erp = request.GET.get('erp', '').strip()
+    query_epr = request.GET.get('epr', '').strip()
     
     usuarios_activos = None  
     accesos_usuarios = {}  
     
-    if query_busqueda_usuario or (query_bp and query_bp.isdigit()) or (query_erp and query_erp.isdigit()):
+    if query_busqueda_usuario or (query_bp and query_bp.isdigit()) or (query_epr and query_epr.isdigit()):
         usuarios_activos = Usuario.objects.filter(estatus='Activo')
         
 
@@ -30,8 +30,8 @@ def look_buscar_usuario_accesos(request):
         if query_bp and query_bp.isdigit():
             usuarios_activos = usuarios_activos.filter(bp__icontains=query_bp)
         
-        if query_erp and query_erp.isdigit():
-            usuarios_activos = usuarios_activos.filter(erp__icontains=query_erp)
+        if query_epr and query_epr.isdigit():
+            usuarios_activos = usuarios_activos.filter(epr__icontains=query_epr)
         
         # Obtener accesos para cada usuario y almacenarlos en el diccionario
         for usuario in usuarios_activos:
@@ -42,7 +42,7 @@ def look_buscar_usuario_accesos(request):
         "accesos_usuarios": accesos_usuarios,
         "query_busqueda_usuario": query_busqueda_usuario,
         "query_bp": query_bp,
-        "query_erp": query_erp
+        "query_epr": query_epr
     })
 
 def agregar_add_accesos(request):
@@ -51,7 +51,7 @@ def agregar_add_accesos(request):
         return redirect('login_view')
     query_busqueda_usuario = request.GET.get('q', '').strip()
     query_bp = request.GET.get('bp', '').strip()
-    query_erp = request.GET.get('erp', '').strip()
+    query_epr = request.GET.get('epr', '').strip()
 
     usuarios_activos = Usuario.objects.filter(estatus='Activo')
     tipos_acceso = TipoAcceso.objects.all() # Obtener los accesos todos
@@ -64,8 +64,8 @@ def agregar_add_accesos(request):
             )
     if query_bp and query_bp.isdigit():
         usuarios_activos = usuarios_activos.filter(bp__icontains=query_bp)
-    if query_erp and query_erp.isdigit():
-        usuarios_activos = usuarios_activos.filter(erp__icontains=query_erp)
+    if query_epr and query_epr.isdigit():
+        usuarios_activos = usuarios_activos.filter(epr__icontains=query_epr)
 
     if request.method == "POST":
         id_usuario = request.POST.get("id_usuario")
@@ -94,5 +94,5 @@ def agregar_add_accesos(request):
         "tipos_acceso": tipos_acceso,
         "query_busqueda_usuario": query_busqueda_usuario,
         "query_bp": query_bp,
-        "query_erp": query_erp,
+        "query_epr": query_epr,
     })

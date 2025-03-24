@@ -15,9 +15,9 @@
   <button type="submit" class="btn btn-success ms-2">Buscar</button>
 </form>
 
-<!-- Formulario de búsqueda por ERP (máximo 6 números) -->
+<!-- Formulario de búsqueda por epr (máximo 6 números) -->
 <form method="GET" action="{% url 'buscar_usuario_accesos' %}" class="d-flex justify-content-center mb-4">
-  <input type="text" name="erp" class="form-control w-50" placeholder="Buscar por ERP (máx. 6 números)" value="{{ query_erp }}" maxlength="6" pattern="[0-9]{1,6}" title="Debe contener solo números (máx. 6)"/>
+  <input type="text" name="epr" class="form-control w-50" placeholder="Buscar por epr (máx. 6 números)" value="{{ query_epr }}" maxlength="6" pattern="[0-9]{1,6}" title="Debe contener solo números (máx. 6)"/>
   <button type="submit" class="btn btn-success ms-2">Buscar</button>
 </form>
 
@@ -58,7 +58,7 @@
 
 <!-- Botón para regresar -->
 <div class="d-flex justify-content-start mt-3">
-  <a href="{% url 'dashboard_rol_kam_supervisor' %}" class="btn btn-primary">
+  <a href="{% url 'dashboard_cargo_kam_supervisor' %}" class="btn btn-primary">
     <i class="bi bi-arrow-return-left me-2"></i> Regresar
   </a>
 </div>
