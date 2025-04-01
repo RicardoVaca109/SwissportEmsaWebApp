@@ -41,7 +41,8 @@ class Acceso(models.Model):
     ESTADOS_ACCESOS_CHOICES = {
         "SI":"SI",
         "NO":"NO",
-        "SOLICITADO":"SOLICITADO"
+        "SOLICITADO":"SOLICITADO",
+        "PENDIENTE":"PENDIENTE",
     }    
     id_acceso = models.AutoField(primary_key = True)
     usuario = models.ForeignKey(Usuario, on_delete = models.CASCADE)
