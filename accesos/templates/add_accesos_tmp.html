@@ -80,11 +80,12 @@
                 {% if acceso_existente and acceso_existente.tipo_acceso.id_tipo_acceso == acceso.id_tipo_acceso %}
                   <input type="text" class="form-control" value="{{ acceso_existente.tiene_acceso }}" readonly>
                 {% else %}
-                  <select name="acceso_{{ acceso.id_tipo_acceso }}" class="form-control">
+                  <select name="acceso_{{ acceso.id_tipo_acceso }}" class="form-control" required>
                     <option value="" selected disabled>Seleccione una opción</option>
                     <option value="SI">SI</option>
                     <option value="NO">NO</option>
                     <option value="SOLICITADO">SOLICITADO</option>
+                    <option value="PENDIENTE">PENDIENTE</option>
                   </select>
                 {% endif %}
               </td>
